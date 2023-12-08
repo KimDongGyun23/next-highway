@@ -1,0 +1,27 @@
+:root{
+  --color-brown-1 : #F3EEEA;
+  --color-brown-2 : #B0A695;
+  --color-brown-3 : #776B5D;
+  --color-brown-4 : #5e3810;
+  --color-brown-5 : #3F2305;
+  --color-box-shadow : inset 0 0 20px red;
+
+  background-color: var(--color-brown-1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  font-size: 20px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:visited {
+  color: inherit;
+}
