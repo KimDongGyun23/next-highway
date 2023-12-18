@@ -6,6 +6,8 @@
   --color-brown-5 : #3F2305;
   --color-box-shadow : inset 0 0 20px red;
 
+  --header-size : 100px;
+
   background-color: var(--color-brown-1);
 }
 
