@@ -1,6 +1,7 @@
 import Header from '@/layout/header/Header';
 import './globals.css'
 import { Noto_Sans_KR } from 'next/font/google'
+import Providers from '@/store/provider';
 
 const notoSansKr = Noto_Sans_KR({
   weight: ['100', '400', '700'],
@@ -16,8 +17,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="ko">
       <body className={notoSansKr.className}>
-        <Header />
-        {children}
+        <Providers>
+          <Header />
+          {children}
+        </Providers>
       </body>
     </html>
   )

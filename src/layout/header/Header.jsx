@@ -15,7 +15,7 @@ const Header = () => {
           <Link href={'./'}>음식</Link>
         </li>
         <li className={styles.item}>
-          <Link href={'./'}>편의시설</Link>
+          <Link href={'./amenities'}>편의시설</Link>
         </li>
         <li className={styles.item}>
           <Link href={'./'}>주유소</Link>

@@ -1,8 +1,9 @@
 import React from 'react'
+import AmenitiesClient from './AmenitiesClient'
 
 const Amenities = () => {
   return (
-    <div>Amenities</div>
+    <AmenitiesClient />
   )
 }
 
