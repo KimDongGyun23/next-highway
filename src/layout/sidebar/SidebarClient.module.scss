@@ -16,6 +16,11 @@
     padding: 10px 10px 10px 0;
     font-size: 20px;
     font-weight: 700;
+
+    &:hover{
+      background-color: var(--color-brown-2);
+      opacity: 70%;
+    }
   }
 
   .active {
