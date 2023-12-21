@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import styles from './AmenitiesClient.module.scss'
 import Sidebar from '@/layout/sidebar/Sidebar';
 import { IoSearchSharp } from "react-icons/io5";
+import Pagination from '@/components/pagination/Pagination';
 
 const AmenitiesClient = () => {
   const [allHighwayInfo, setAllHighwayInfo] = useState([]);
@@ -36,11 +37,26 @@ const AmenitiesClient = () => {
     return array;
   }
   
-  console.log(displayedHighwayInfo);
+  // console.log(displayedHighwayInfo);
 
   useEffect(() => {
     getHighwayInfo();
   }, [])
+
+
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage, setProductsPerPage] = useState(7);
+
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+
+  const currentProducts = allHighwayInfo.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  ) 
+
+
 
 
   return (
@@ -67,7 +83,7 @@ const AmenitiesClient = () => {
           </thead>
           <tbody>
             {
-              displayedHighwayInfo.map(({svarCd, svarNm, svarAddr})=>(
+              currentProducts.map(({svarCd, svarNm, svarAddr})=>(
                 <tr className={styles.trBody} key={svarCd}>
                   <td>{svarNm}</td>
                   <td className={styles.addr}>{svarAddr}</td>
@@ -76,6 +92,13 @@ const AmenitiesClient = () => {
             }
           </tbody>
         </table>
+
+        <Pagination 
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalProducts = {allHighwayInfo.length}
+          productsPerPage={productsPerPage}
+        />
       </div>
 
     </div>
