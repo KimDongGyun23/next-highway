@@ -1,5 +1,5 @@
 'use client'
-import axios, { all } from 'axios';
+import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import styles from './AmenitiesClient.module.scss'
 import Sidebar from '@/layout/sidebar/Sidebar';
