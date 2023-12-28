@@ -12,7 +12,6 @@ const AmenitiesClient = () => {
 
   const limitNum = 7;
 
-
   // 휴게소 정보 저장
   const getHighwayInfo = async () => {
     try {
@@ -44,20 +43,17 @@ const AmenitiesClient = () => {
   }, [])
 
 
-
+  // 현재 페이지
   const [currentPage, setCurrentPage] = useState(1);
+  // 한 페이지 당 보여지는 개수
   const [productsPerPage, setProductsPerPage] = useState(7);
 
+  // 다음 페이지의 1번
   const indexOfLastProduct = currentPage * productsPerPage;
+  // 현재 페이지의 1번
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
 
-  const currentProducts = allHighwayInfo.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct
-  ) 
-
-
-
+  const currentProducts = allHighwayInfo.slice( indexOfFirstProduct, indexOfLastProduct ) 
 
   return (
     <div className={styles.container}>
@@ -96,7 +92,7 @@ const AmenitiesClient = () => {
         <Pagination 
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
-          totalProducts = {allHighwayInfo.length}
+          totalLength = {allHighwayInfo.length}
           productsPerPage={productsPerPage}
         />
       </div>

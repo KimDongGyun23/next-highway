@@ -5,15 +5,12 @@ const Pagination = ({
   currentPage,
   productsPerPage,
   setCurrentPage,
-  totalProducts
+  totalLength
 }) => {
-
-  console.log("cur : ", currentPage)
-  console.log("pro : ", productsPerPage)
-  console.log("totalProducts : ", totalProducts)
 
   const pageNumbers = [];
 
+  // 화살표 사이 페이지 개수
   const [pageNumberLimit] = useState(5);
   const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5);
   const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
@@ -27,7 +24,7 @@ const Pagination = ({
   const paginateNextPage = () => {
     setCurrentPage(currentPage + 1);
 
-    // 다음 페이지 숫자 번호 집합 보이기
+    // 페이지 숫자 번호 집합 변경
     if (currentPage + 1 > maxPageNumberLimit) {
       setMaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
       setMinPageNumberLimit(minPageNumberLimit + pageNumberLimit);
@@ -38,13 +35,15 @@ const Pagination = ({
   const paginatePrevPage = () => {
     setCurrentPage(currentPage - 1);
 
+    // 페이지 숫자 번호 집합 변경
     if ((currentPage - 1) % pageNumberLimit === 0) {
       setMaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
       setMinPageNumberLimit(minPageNumberLimit - pageNumberLimit);
     }
   }
 
-  for (let i = 1; i <= Math.ceil(totalProducts / productsPerPage); i++) {
+  // 페이지 숫자 집합
+  for (let i = 1; i <= Math.ceil(totalLength / productsPerPage); i++) {
     pageNumbers.push(i);
   }
 
