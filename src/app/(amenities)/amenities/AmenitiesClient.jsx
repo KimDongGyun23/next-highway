@@ -7,59 +7,58 @@ import { IoSearchSharp } from "react-icons/io5";
 import Pagination from '@/components/pagination/Pagination';
 
 const AmenitiesClient = () => {
+
+  // 전체 정보 저장
   const [allHighwayInfo, setAllHighwayInfo] = useState([]);
+
+  // 필터링된 정보 저장
   const [displayedHighwayInfo, setDisplayedHighwayInfo] = useState([]);
 
-  const limitNum = 7;
+  // 한 페이지 당 보여지는 개수
+  const [productsPerPage, setProductsPerPage] = useState(7);
+
+  // 현재 페이지
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // 다음 페이지의 1번
+  const indexOfLastProduct = currentPage * productsPerPage;
+
+  // 현재 페이지의 1번
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+
+  // 현재 보여지는 정보들
+  const currentProducts = displayedHighwayInfo.slice( indexOfFirstProduct, indexOfLastProduct ) 
+
+  // 정보 가져올 URL
+  const url = "https://data.ex.co.kr/openapi/restinfo/hiwaySvarInfoList?key=test&type=json&svarGsstClssCd=0";
+
 
   // 휴게소 정보 저장
+  // svarGsstClassCd = 0:휴게소 1:주유소
   const getHighwayInfo = async () => {
     try {
-
-      // svarGsstClassCd = 0:휴게소 1:주유소 
-      const res = await axios.get("https://data.ex.co.kr/openapi/restinfo/hiwaySvarInfoList?key=test&type=json&svarGsstClssCd=0");
+      const res = await axios.get(url);
       setAllHighwayInfo(res.data.list);
-      setDisplayedHighwayInfo(filterDisplayedHighwayInfo(res.data.list))
+      setDisplayedHighwayInfo(res.data.list);
     } 
     catch (error) {
       console.log(error);
     }
   }
 
-  // limitNum 만큼 displayedHighwayInfo에 추가
-  function filterDisplayedHighwayInfo(allInfo, displayedHighwayInfo = []){
-    const limit = displayedHighwayInfo.length + limitNum;
-
-    // limitNum 만큼 더 가져오기
-    const array = allInfo.filter((_, index)=> index+1 <= limit)
-    
-    return array;
-  }
-  
-  // console.log(displayedHighwayInfo);
-
   useEffect(() => {
     getHighwayInfo();
   }, [])
-
-
-  // 현재 페이지
-  const [currentPage, setCurrentPage] = useState(1);
-  // 한 페이지 당 보여지는 개수
-  const [productsPerPage, setProductsPerPage] = useState(7);
-
-  // 다음 페이지의 1번
-  const indexOfLastProduct = currentPage * productsPerPage;
-  // 현재 페이지의 1번
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-
-  const currentProducts = allHighwayInfo.slice( indexOfFirstProduct, indexOfLastProduct ) 
 
   return (
     <div className={styles.container}>
 
       <div>
-        <Sidebar />
+        <Sidebar 
+          allHighwayInfo={allHighwayInfo}
+          setDisplayedHighwayInfo={setDisplayedHighwayInfo}
+          setCurrentPage={setCurrentPage}
+        />
       </div>
       
       <div className={styles.content}>
@@ -92,14 +91,12 @@ const AmenitiesClient = () => {
         <Pagination 
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
-          totalLength = {allHighwayInfo.length}
+          totalLength = {displayedHighwayInfo.length}
           productsPerPage={productsPerPage}
         />
       </div>
 
     </div>
-
-
   )
 }
 

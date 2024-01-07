@@ -1,9 +1,17 @@
 import React from 'react'
 import SidebarClient from './SidebarClient'
 
-const Sidebar = () => {
+const Sidebar = ({ 
+  allHighwayInfo, 
+  setDisplayedHighwayInfo, 
+  setCurrentPage, 
+}) => {
   return (
-    <SidebarClient />
+    <SidebarClient 
+      allHighwayInfo={allHighwayInfo} 
+      setDisplayedHighwayInfo={setDisplayedHighwayInfo}
+      setCurrentPage={setCurrentPage}
+    />
   )
 }
 

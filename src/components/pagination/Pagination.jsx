@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './Pagination.module.scss';
 
 const Pagination = ({
@@ -46,6 +46,15 @@ const Pagination = ({
   for (let i = 1; i <= Math.ceil(totalLength / productsPerPage); i++) {
     pageNumbers.push(i);
   }
+
+  // 필터링 되었을 때, 숫자 집합 초기화
+  useEffect(()=>{
+    if ( currentPage === 1 ) {
+      setMaxPageNumberLimit(5);
+      setMinPageNumberLimit(0);
+    }
+  },[currentPage])
+  
 
   return (
     <div className={styles.pagination}>
