@@ -4,7 +4,7 @@ import styles from './SidebarClient.module.scss'
 
 
 const AreaName = [
-  "서울", "경기", "강원", "충북", "충남", "전북", "전남", "경북", "경남"
+  "모두 보기", "서울", "경기", "강원", "충북", "충남", "전북", "전남", "경북", "경남"
 ];
 
 const SidebarClient = ({ 
@@ -16,9 +16,17 @@ const SidebarClient = ({
 
 
   const handleClick = (area) => {
+    
+    if ( area === "모두 보기") {
+      const filteredItems = allHighwayInfo;
+      setDisplayedHighwayInfo(filteredItems);
+    }
+    else {
+      const filteredItems = allHighwayInfo.filter(({ svarAddr }) => svarAddr.startsWith(area));
+      setDisplayedHighwayInfo(filteredItems);
+    }
+    
     setActiveCity(area);
-    const filteredItems = allHighwayInfo.filter(({ svarAddr }) => svarAddr.startsWith(area));
-    setDisplayedHighwayInfo(filteredItems);
     setCurrentPage(1);
   }
 
