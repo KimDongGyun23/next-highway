@@ -27,7 +27,7 @@ const AmenitiesClient = () => {
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
 
   // 현재 보여지는 정보들
-  const currentProducts = displayedHighwayInfo.slice( indexOfFirstProduct, indexOfLastProduct ) 
+  const currentProducts = displayedHighwayInfo.slice( indexOfFirstProduct, indexOfLastProduct )
 
   // 정보 가져올 URL
   const url = "https://data.ex.co.kr/openapi/restinfo/hiwaySvarInfoList?key=test&type=json&svarGsstClssCd=0";
@@ -38,8 +38,18 @@ const AmenitiesClient = () => {
   const getHighwayInfo = async () => {
     try {
       const res = await axios.get(url);
-      setAllHighwayInfo(res.data.list);
-      setDisplayedHighwayInfo(res.data.list);
+      
+      // 문자 정렬
+      const temp = res.data.list.sort((a, b) => {
+        const nameA = a.svarNm;
+        const nameB = b.svarNm;
+      
+        if (nameA < nameB) { return -1; }
+        if (nameA > nameB) { return 1; }
+        return 0; // 같은 경우 유지
+      });
+      setAllHighwayInfo(temp);
+      setDisplayedHighwayInfo(temp);
     } 
     catch (error) {
       console.log(error);
