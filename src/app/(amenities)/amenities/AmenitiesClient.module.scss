@@ -21,6 +21,10 @@
           outline: none;
           border: 2px solid var(--color-brown-3);
         }
+
+        &::placeholder {
+          font-size: 15px;
+        }
       }
 
       button {

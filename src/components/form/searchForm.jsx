@@ -26,6 +26,7 @@ const SearchForm = ({allHighwayInfo, setDisplayedHighwayInfo}) => {
         name='search'
         type='text'
         value={search}
+        placeholder='휴게소 또는 주소를 입력하세요.'
         onChange={(e)=>setSearch(e.target.value)}
       />
       <button type='submit'><IoSearchSharp /></button>
