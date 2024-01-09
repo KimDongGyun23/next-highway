@@ -5,9 +5,12 @@ import styles from './AmenitiesClient.module.scss'
 import Sidebar from '@/layout/sidebar/Sidebar';
 import Pagination from '@/components/pagination/Pagination';
 import SearchForm from '@/components/form/searchForm';
+import { useRouter } from 'next/navigation';
 
 const AmenitiesClient = () => {
-
+  // 라우터
+  const router = useRouter();
+  
   // 전체 정보 저장
   const [allHighwayInfo, setAllHighwayInfo] = useState([]);
 
@@ -19,13 +22,13 @@ const AmenitiesClient = () => {
 
   // 현재 페이지
   const [currentPage, setCurrentPage] = useState(1);
-
+  
   // 다음 페이지의 1번
   const indexOfLastProduct = currentPage * productsPerPage;
 
   // 현재 페이지의 1번
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-
+  
   // 현재 보여지는 정보들
   const currentProducts = displayedHighwayInfo.slice( indexOfFirstProduct, indexOfLastProduct )
 
@@ -60,6 +63,10 @@ const AmenitiesClient = () => {
     getHighwayInfo();
   }, [])
 
+  const handleClick = (svarCd) => {
+    router.push(`/amenities-details/${svarCd}`);
+  }
+
   return (
     <div className={styles.container}>
 
@@ -87,7 +94,11 @@ const AmenitiesClient = () => {
           <tbody>
             {
               currentProducts.map(({svarCd, svarNm, svarAddr})=>(
-                <tr className={styles.trBody} key={svarCd}>
+                <tr 
+                  className={styles.trBody} 
+                  key={svarCd}
+                  onClick={()=>handleClick(svarCd)}
+                >
                   <td>{svarNm}</td>
                   <td className={styles.addr}>{svarAddr}</td>
                 </tr>
