@@ -28,16 +28,18 @@ const DetailClient = () => {
 
   return (
     <>
+      <h2>{ info[0]?.stdRestNm }</h2>
+      <p>{ info[0]?.svarAddr }</p>
       {
         info.map(({
           psCode, psDesc, psName,
-          stime, etime, 
-          stdRestNm, svarAddr
+          stime, etime,
         })=>(
           <div key={psCode}>
-            <p>psCode : {psCode} psDesc : {psDesc} psName : {psName}</p>
-            <p>stime : {stime} etime : {etime}</p>
-            <p>stdRestNm : {stdRestNm} svarAddr : {svarAddr}</p>
+            <br/>
+            <p>이름 : {psName} ({psCode}) </p>
+            <p>부가설명 : {psDesc}</p>
+            <p>이용시간 : {stime} - {etime}</p>
           </div>
         ))
       }
