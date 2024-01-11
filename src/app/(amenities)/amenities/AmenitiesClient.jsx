@@ -2,7 +2,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import styles from './AmenitiesClient.module.scss'
-import Sidebar from '@/layout/sidebar/Sidebar';
 import Pagination from '@/components/pagination/Pagination';
 import SearchForm from '@/components/form/searchForm';
 import { useRouter } from 'next/navigation';

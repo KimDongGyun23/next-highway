@@ -2,6 +2,7 @@
 import axios from 'axios'
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
+import styles from './DetailClient.module.scss'
 
 const DetailClient = () => {
   const [info, setInfo] = useState([]);
@@ -27,23 +28,30 @@ const DetailClient = () => {
 
 
   return (
-    <>
-      <h2>{ info[0]?.stdRestNm }</h2>
-      <p>{ info[0]?.svarAddr }</p>
-      {
-        info.map(({
-          psCode, psDesc, psName,
-          stime, etime,
-        })=>(
-          <div key={psCode}>
-            <br/>
-            <p>이름 : {psName} ({psCode}) </p>
-            <p>부가설명 : {psDesc}</p>
-            <p>이용시간 : {stime} - {etime}</p>
-          </div>
-        ))
-      }
-    </>
+    <div className={styles.container}>
+      <h2 className={styles[`area-name`]}>
+        { info[0]?.stdRestNm }
+      </h2>
+
+      <p className={styles.addr}>
+        { info[0]?.svarAddr }
+      </p>
+
+      <div className={styles[`box-wrapper`]}>
+        {
+          info.map(({
+            psCode, psDesc, psName,
+            stime, etime,
+          })=>(
+            <div className={styles.box} key={psCode}>
+              <p className={styles.name}>{psName} ({psCode}) </p>
+              <p className={styles.desc}>{psDesc}</p>
+              <p className={styles.time}>이용시간 : {stime} - {etime}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
   )
 }
 
