@@ -12,7 +12,7 @@ const SidebarClient = ({
   setDisplayedHighwayInfo, 
   setCurrentPage, 
 }) => {
-  const [activeCity, setActiveCity] = useState("");
+  const [activeCity, setActiveCity] = useState("모두 보기");
 
   const handleClick = (area) => {
     
