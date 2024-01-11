@@ -57,7 +57,7 @@ const DetailClient = () => {
                   stime, etime,
                 })=>(
                   <div className={styles.box} key={psCode}>
-                    <p className={styles.name}>{psName} ({psCode}) </p>
+                    <p className={styles.name}>{psName}</p>
                     <p className={styles.desc}>{psDesc}</p>
                     <p className={styles.time}>이용시간 : {stime} - {etime}</p>
                   </div>
