@@ -14,7 +14,6 @@ const SidebarClient = ({
 }) => {
   const [activeCity, setActiveCity] = useState("");
 
-
   const handleClick = (area) => {
     
     if ( area === "모두 보기") {

@@ -5,6 +5,7 @@ import styles from './AmenitiesClient.module.scss'
 import Pagination from '@/components/pagination/Pagination';
 import SearchForm from '@/components/form/searchForm';
 import { useRouter } from 'next/navigation';
+import Sidebar from '@/layout/sidebar/Sidebar';
 
 const AmenitiesClient = () => {
   // 라우터
@@ -68,40 +69,51 @@ const AmenitiesClient = () => {
 
   return (
     <div className={styles.container}>
-      <SearchForm 
-        allHighwayInfo={allHighwayInfo}
-        setDisplayedHighwayInfo={setDisplayedHighwayInfo}
-      />
 
-      <table>
-        <thead>
-          <tr>
-            <th>휴게소 명</th>
-            <th>주소</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            currentProducts.map(({svarCd, svarNm, svarAddr})=>(
-              <tr 
-                className={styles.trBody} 
-                key={svarCd}
-                onClick={()=>handleClick(svarCd)}
-              >
-                <td>{svarNm}</td>
-                <td className={styles.addr}>{svarAddr}</td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
+      <div>
+        <Sidebar 
+          allHighwayInfo={allHighwayInfo} 
+          setDisplayedHighwayInfo={setDisplayedHighwayInfo}
+          setCurrentPage={setCurrentPage}
+        />
+      </div>
 
-      <Pagination 
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        totalLength = {displayedHighwayInfo.length}
-        productsPerPage={productsPerPage}
-      />
+      <div className={styles.content}>
+        <SearchForm 
+          allHighwayInfo={allHighwayInfo}
+          setDisplayedHighwayInfo={setDisplayedHighwayInfo}
+        />
+
+        <table>
+          <thead>
+            <tr>
+              <th>휴게소 명</th>
+              <th>주소</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              currentProducts.map(({svarCd, svarNm, svarAddr})=>(
+                <tr 
+                  className={styles.trBody} 
+                  key={svarCd}
+                  onClick={()=>handleClick(svarCd)}
+                >
+                  <td>{svarNm}</td>
+                  <td className={styles.addr}>{svarAddr}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+
+        <Pagination 
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalLength = {displayedHighwayInfo.length}
+          productsPerPage={productsPerPage}
+        />
+      </div>
     </div>
   )
 }
