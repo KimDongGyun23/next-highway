@@ -19,8 +19,17 @@
 
   .list {
     display: flex;
+    height: 100%;
+    align-items: center;
+
+    .active {
+      border-bottom: 5px solid var(--color-brown-4);
+    }
 
     .item {
+      display: flex;
+      align-items: center;
+      height: 70%;
       list-style: none;
       margin: 0 2rem;
       transition: color 200ms;
