@@ -7,15 +7,20 @@ import Button from '@/components/button/Button'
 
 const DetailClient = () => {
   const [info, setInfo] = useState([]);
+  const [brandInfo, setBrandInfo] = useState([]);
 
   const { id } = useParams();
   const router = useRouter();
 
   const url = `https://data.ex.co.kr/openapi/restinfo/restConvList?key=test&type=json&numOfRows=10&pageNo=1&stdRestCd=${id}`
 
+  const brandUrl = `https://data.ex.co.kr/openapi/restinfo/restBrandList?key=test&type=json&numOfRows=50&pageNo=1&stdRestCd=${id}`
+
   const getInfo = async () => {
     const res = await axios.get(url);
+    const brandRes = await axios.get(brandUrl);
     setInfo(res.data.list);
+    setBrandInfo(brandRes.data.list);
   }
 
   useEffect(()=>{
@@ -57,6 +62,22 @@ const DetailClient = () => {
                   <div className={styles.box} key={psCode}>
                     <p className={styles.name}>{psName}</p>
                     <p className={styles.desc}>{psDesc}</p>
+                    <p className={styles.time}>이용시간 : {stime} - {etime}</p>
+                  </div>
+                ))
+              }
+            </div>
+
+            <h4 className={styles.brand}>브랜드 매장</h4>
+            <div className={styles[`box-wrapper`]}>
+              {
+                brandInfo.map(({
+                  brdCode, brdDesc, brdName,
+                  stime, etime,
+                })=>(
+                  <div className={styles.box} key={brdCode}>
+                    <p className={styles.name}>{brdName}</p>
+                    <p className={styles.desc}>{brdDesc}</p>
                     <p className={styles.time}>이용시간 : {stime} - {etime}</p>
                   </div>
                 ))

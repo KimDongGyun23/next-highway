@@ -36,11 +36,11 @@ const InfoList = () => {
   const currentProducts = displayedHighwayInfo.slice( indexOfFirstProduct, indexOfLastProduct )
 
   // 정보 가져올 URL
+  // svarGsstClassCd = 0:휴게소 1:주유소
   const url = "https://data.ex.co.kr/openapi/restinfo/hiwaySvarInfoList?key=test&type=json&svarGsstClssCd=0";
 
 
   // 휴게소 정보 저장
-  // svarGsstClassCd = 0:휴게소 1:주유소
   const getHighwayInfo = async () => {
     try {
       const res = await axios.get(url);
