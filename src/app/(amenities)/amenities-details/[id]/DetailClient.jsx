@@ -15,9 +15,7 @@ const DetailClient = () => {
 
   const getInfo = async () => {
     const res = await axios.get(url);
-    console.log(res.data.list);
     setInfo(res.data.list);
-
   }
 
   useEffect(()=>{
