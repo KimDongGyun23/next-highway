@@ -1,15 +1,18 @@
 'use client'
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import styles from './AmenitiesClient.module.scss'
+import styles from './InfoList.module.scss'
 import Pagination from '@/components/pagination/Pagination';
 import SearchForm from '@/components/form/searchForm';
 import { useRouter } from 'next/navigation';
 import Sidebar from '@/layout/sidebar/Sidebar';
 
-const AmenitiesClient = () => {
+const InfoList = () => {
   // 라우터
   const router = useRouter();
+  
+  // 현재 페이지 url
+  const currentUrl = typeof window !== 'undefined' ? window.location.pathname : '';
   
   // 전체 정보 저장
   const [allHighwayInfo, setAllHighwayInfo] = useState([]);
@@ -64,7 +67,7 @@ const AmenitiesClient = () => {
   }, [])
 
   const handleClick = (svarCd) => {
-    router.push(`/amenities-details/${svarCd}`);
+    router.push(`${currentUrl}-details/${svarCd}`);
   }
 
   return (
@@ -118,4 +121,4 @@ const AmenitiesClient = () => {
   )
 }
 
-export default AmenitiesClient
+export default InfoList
