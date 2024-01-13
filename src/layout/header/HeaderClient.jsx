@@ -14,7 +14,7 @@ const HeaderClient = () => {
   return (
     <header className={styles.header}>
       <div>
-        <h1><Link className={styles.logo} href={'./'}>logo</Link></h1>
+        <h1><Link className={styles.logo} href={'/'}>logo</Link></h1>
       </div>
 
       <ul className={styles.list}>
