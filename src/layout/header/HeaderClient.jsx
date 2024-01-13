@@ -14,36 +14,40 @@ const HeaderClient = () => {
   return (
     <header className={styles.header}>
       <div>
-        <h1><Link className={styles.logo} href={'/'}>logo</Link></h1>
+        <h1 onClick={()=>setSelected("")}>
+          <Link className={styles.logo} href={'/'}>
+            logo
+          </Link>
+        </h1>
       </div>
 
       <ul className={styles.list}>
         <li 
-          className={selected === '/' ? `${styles.item} ${styles.active}` : styles.item}
-          onClick={()=>handleButtonClick('/')}
+          className={selected === '/food' ? `${styles.item} ${styles.active}` : styles.item}
+          onClick={()=>handleButtonClick('/food')}
         >
-          <Link href={'./'}>음식</Link>
+          <Link href={'/food'}>음식</Link>
         </li>
 
         <li 
           className={selected === '/amenities' ? `${styles.item} ${styles.active}` : styles.item}
           onClick={()=>handleButtonClick('/amenities')}
         >
-          <Link href={'./amenities'}>편의시설</Link>
+          <Link href={'/amenities'}>편의시설</Link>
         </li>
 
         <li 
-          className={selected === '/' ? `${styles.item} ${styles.active}` : styles.item}
-          onClick={()=>handleButtonClick('/')}
+          className={selected === '/gas-station' ? `${styles.item} ${styles.active}` : styles.item}
+          onClick={()=>handleButtonClick('/gas-station')}
         >
-          <Link href={'./'}>주유소</Link>
+          <Link href={'/gas-station'}>주유소</Link>
         </li>
 
         <li 
-          className={selected === '/' ? `${styles.item} ${styles.active}` : styles.item}
-          onClick={()=>handleButtonClick('/')}
+          className={selected === '/parking' ? `${styles.item} ${styles.active}` : styles.item}
+          onClick={()=>handleButtonClick('/parking')}
         >
-          <Link href={'./'}>주차</Link>
+          <Link href={'/parking'}>주차</Link>
         </li>
       </ul>
 
