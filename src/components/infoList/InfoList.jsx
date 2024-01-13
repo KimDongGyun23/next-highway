@@ -7,7 +7,7 @@ import SearchForm from '@/components/form/searchForm';
 import { useRouter } from 'next/navigation';
 import Sidebar from '@/layout/sidebar/Sidebar';
 
-const InfoList = () => {
+const InfoList = ({ num }) => {
   // 라우터
   const router = useRouter();
   
@@ -37,7 +37,7 @@ const InfoList = () => {
 
   // 정보 가져올 URL
   // svarGsstClassCd = 0:휴게소 1:주유소
-  const url = "https://data.ex.co.kr/openapi/restinfo/hiwaySvarInfoList?key=test&type=json&svarGsstClssCd=0";
+  const url = `https://data.ex.co.kr/openapi/restinfo/hiwaySvarInfoList?key=test&type=json&svarGsstClssCd=${num}`;
 
 
   // 휴게소 정보 저장

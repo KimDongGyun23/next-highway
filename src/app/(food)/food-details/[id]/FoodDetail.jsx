@@ -1,6 +1,6 @@
 'use client'
 import axios from 'axios';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import styles from './FoodDetail.module.scss'
 import { MdOutlineRecommend } from "react-icons/md";
@@ -11,16 +11,14 @@ import Button from '@/components/button/Button';
 const FoodDetail = () => {
 
   const [info, setInfo] = useState([]);
-
+  const router = useRouter();
   const { id } = useParams();
 
   const url = `https://data.ex.co.kr/openapi/restinfo/restBestfoodList?key=test&type=json&numOfRows=50&pageNo=1&stdRestCd=${id}`;
 
   const getInfo = async () => {
     const res = await axios.get(url);
-    console.log(res.data.list)
     setInfo(res.data.list);
-
   }
 
   useEffect(()=>{

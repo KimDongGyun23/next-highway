@@ -1,9 +1,9 @@
 import React from 'react'
-import GasStationClient from './GasStationClient'
+import InfoList from '@/components/infoList/InfoList'
 
 const GasStation = () => {
   return (
-    <GasStationClient />
+    <InfoList num={1} />
   )
 }
 

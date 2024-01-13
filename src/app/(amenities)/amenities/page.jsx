@@ -3,7 +3,7 @@ import InfoList from '@/components/infoList/InfoList'
 
 const Amenities = () => {
   return (
-    <InfoList />
+    <InfoList num={0} />
   )
 }
 
