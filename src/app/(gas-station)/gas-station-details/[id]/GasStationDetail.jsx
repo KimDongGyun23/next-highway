@@ -61,17 +61,18 @@ const GasStationDetail = () => {
                   gasolinePrice, diselPrice, lpgPrice
                 })=>(
                   <div className={styles.box} key={telNo}>
-                    <p className={styles.name}>{oilCompany}</p>
-                    <p className={styles.desc}>전화번호 {telNo}</p>
-                    <p className={styles.desc}>가솔린 가격 {gasolinePrice}</p>
-                    <p className={styles.desc}>디젤 가격 {diselPrice}</p>
-                    <p className={styles.desc}>lpg 가격 {lpgPrice}</p>
+                    <p className={styles.name}>주유 가격</p>
+                    <p className={styles.desc}>정유사 : {oilCompany}</p>
+                    <p className={styles.desc}>전화번호 : {telNo}</p>
+                    <p className={styles.desc}>가솔린 가격 : {gasolinePrice}</p>
+                    <p className={styles.desc}>디젤 가격 : {diselPrice}</p>
+                    <p className={styles.desc}>lpg 가격 : {lpgPrice}</p>
                   </div>
                 ))
               }
             </div>
 
-
+            <h4 className={styles.brand}>편의 시설</h4>
             <div className={styles[`box-wrapper`]}>
               {
                 info.map(({
