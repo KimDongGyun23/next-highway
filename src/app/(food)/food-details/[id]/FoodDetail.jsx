@@ -7,6 +7,7 @@ import { MdOutlineRecommend } from "react-icons/md";
 import { MdOutlineWorkspacePremium } from "react-icons/md";
 import { MdStars } from "react-icons/md";
 import NoData from '@/components/noData/NoData';
+import DetailHeader from '@/components/detailHeader/DetailHeader';
 
 const FoodDetail = () => {
 
@@ -36,13 +37,7 @@ const FoodDetail = () => {
           <>
             <div className={styles.header}>
               <div>
-                <h2 className={styles[`area-name`]}>
-                  { info[0]?.stdRestNm }
-                </h2>
-
-                <p className={styles.addr}>
-                  { info[0]?.svarAddr }
-                </p>
+                <DetailHeader name={info[0]?.stdRestNm} addr={info[0]?.svarAddr} />
               </div>
               
               <div className={styles[`recommend-desc`]}>

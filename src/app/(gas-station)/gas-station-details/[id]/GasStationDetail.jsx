@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import styles from './GasStationDetail.module.scss'
 import NoData from '@/components/noData/NoData';
+import DetailHeader from '@/components/detailHeader/DetailHeader';
 
 const GasStationDetail = () => {
   const [info, setInfo] = useState([]);
@@ -35,20 +36,14 @@ const GasStationDetail = () => {
         ) :
         (
           <>
-            <h2 className={styles[`area-name`]}>
-              { info[0]?.stdRestNm }
-            </h2>
-
-            <p className={styles.addr}>
-              { info[0]?.svarAddr }
-            </p>
+            <DetailHeader name={info[0]?.stdRestNm} addr={info[0]?.svarAddr} />
 
 
             <div className={styles[`box-wrapper`]}>
               {
                 oilInfo.map(({
                   telNo,
-                  oilCompany,lpgYn, 
+                  oilCompany, 
                   gasolinePrice, diselPrice, lpgPrice
                 })=>(
                   <div className={styles.box} key={telNo}>
@@ -63,7 +58,7 @@ const GasStationDetail = () => {
               }
             </div>
 
-            <h4 className={styles.brand}>편의 시설</h4>
+            <h4 className={styles.amenities}>편의 시설</h4>
             <div className={styles[`box-wrapper`]}>
               {
                 info.map(({

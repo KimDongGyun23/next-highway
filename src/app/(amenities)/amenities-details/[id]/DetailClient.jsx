@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import styles from './DetailClient.module.scss'
 import NoData from '@/components/noData/NoData'
+import DetailHeader from '@/components/detailHeader/DetailHeader'
 
 const DetailClient = () => {
   const [info, setInfo] = useState([]);
@@ -36,13 +37,7 @@ const DetailClient = () => {
         ) :
         (
           <>
-            <h2 className={styles[`area-name`]}>
-              { info[0]?.stdRestNm }
-            </h2>
-
-            <p className={styles.addr}>
-              { info[0]?.svarAddr }
-            </p>
+            <DetailHeader name={info[0]?.stdRestNm} addr={info[0]?.svarAddr} />
 
             <div className={styles[`box-wrapper`]}>
               {

@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import styles from './ParkingDetail.module.scss'
 import NoData from '@/components/noData/NoData';
+import DetailHeader from '@/components/detailHeader/DetailHeader';
 
 const ParkingDetail = () => {
   const [info, setInfo] = useState([]);
@@ -30,13 +31,7 @@ const ParkingDetail = () => {
         ) :
         (
           <>
-            <h2 className={styles[`area-name`]}>
-              { info?.svarNm }
-            </h2>
-
-            <p className={styles.addr}>
-              { info?.svarAddr }
-            </p>
+            <DetailHeader name={info?.svarNm} addr={info?.svarAddr} />
 
             <div className={styles[`box-wrapper`]}>
               <div className={styles.box}>
