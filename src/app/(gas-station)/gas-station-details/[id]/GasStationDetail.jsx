@@ -1,16 +1,14 @@
 'use client'
 import axios from 'axios';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import styles from './GasStationDetail.module.scss'
-import Button from '@/components/button/Button';
 import NoData from '@/components/noData/NoData';
 
 const GasStationDetail = () => {
   const [info, setInfo] = useState([]);
   const [oilInfo, setOilInfo] = useState([]);
 
-  const router = useRouter();
   const { id } = useParams();
 
   const url = `https://data.ex.co.kr/openapi/restinfo/restOilList?key=test&type=json&stdRestCd=${id}`;
