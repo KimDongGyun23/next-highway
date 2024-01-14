@@ -1,17 +1,16 @@
 'use client'
 import axios from 'axios';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import styles from './FoodDetail.module.scss'
 import { MdOutlineRecommend } from "react-icons/md";
 import { MdOutlineWorkspacePremium } from "react-icons/md";
 import { MdStars } from "react-icons/md";
-import Button from '@/components/button/Button';
+import NoData from '@/components/noData/NoData';
 
 const FoodDetail = () => {
 
   const [info, setInfo] = useState([]);
-  const router = useRouter();
   const { id } = useParams();
 
   const url = `https://data.ex.co.kr/openapi/restinfo/restBestfoodList?key=test&type=json&numOfRows=50&pageNo=1&stdRestCd=${id}`;
@@ -31,15 +30,7 @@ const FoodDetail = () => {
       {
         info.length === 0 ?
         (
-          <div className={styles[`no-data`]}>
-            <p>게시된 정보가 없습니다.</p>
-            
-            <Button
-              onClick={()=>{router.back();}}
-            >
-              이전 페이지로 돌아가기
-            </Button>
-          </div>
+          <NoData />
         ) :
         (
           <>

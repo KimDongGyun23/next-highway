@@ -4,6 +4,7 @@ import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import styles from './GasStationDetail.module.scss'
 import Button from '@/components/button/Button';
+import NoData from '@/components/noData/NoData';
 
 const GasStationDetail = () => {
   const [info, setInfo] = useState([]);
@@ -32,15 +33,7 @@ const GasStationDetail = () => {
       {
         info.length === 0 ?
         (
-          <div className={styles[`no-data`]}>
-            <p>게시된 정보가 없습니다.</p>
-            
-            <Button
-              onClick={()=>{router.back();}}
-            >
-              이전 페이지로 돌아가기
-            </Button>
-          </div>
+          <NoData />
         ) :
         (
           <>
