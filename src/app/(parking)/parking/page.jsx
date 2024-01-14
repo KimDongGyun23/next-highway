@@ -1,8 +1,9 @@
+import InfoList from '@/components/infoList/InfoList'
 import React from 'react'
 
 const Parking = () => {
   return (
-    <div>Parking</div>
+    <InfoList num={0} />
   )
 }
 
