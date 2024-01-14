@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import styles from './GasStationDetail.module.scss'
 import NoData from '@/components/noData/NoData';
 import DetailHeader from '@/components/detailHeader/DetailHeader';
+import InfoBox from '@/components/infoBox/InfoBox';
 
 const GasStationDetail = () => {
   const [info, setInfo] = useState([]);
@@ -46,14 +47,14 @@ const GasStationDetail = () => {
                   oilCompany, 
                   gasolinePrice, diselPrice, lpgPrice
                 })=>(
-                  <div className={styles.box} key={telNo}>
+                  <InfoBox key={telNo}>
                     <p className={styles.name}>주유 가격</p>
                     <p className={styles.desc}>정유사 : {oilCompany}</p>
                     <p className={styles.desc}>전화번호 : {telNo}</p>
                     <p className={styles.desc}>가솔린 가격 : {gasolinePrice}</p>
                     <p className={styles.desc}>디젤 가격 : {diselPrice}</p>
                     <p className={styles.desc}>lpg 가격 : {lpgPrice}</p>
-                  </div>
+                  </InfoBox>
                 ))
               }
             </div>
@@ -65,11 +66,11 @@ const GasStationDetail = () => {
                   psCode, psDesc, psName,
                   stime, etime,
                 })=>(
-                  <div className={styles.box} key={psCode}>
+                  <InfoBox key={psCode}>
                     <p className={styles.name}>{psName}</p>
                     <p className={styles.desc}>{psDesc}</p>
                     <p className={styles.time}>이용시간 : {stime} - {etime}</p>
-                  </div>
+                  </InfoBox>
                 ))
               }
             </div>

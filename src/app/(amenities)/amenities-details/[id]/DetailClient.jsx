@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import styles from './DetailClient.module.scss'
 import NoData from '@/components/noData/NoData'
 import DetailHeader from '@/components/detailHeader/DetailHeader'
+import InfoBox from '@/components/infoBox/InfoBox'
 
 const DetailClient = () => {
   const [info, setInfo] = useState([]);
@@ -45,11 +46,11 @@ const DetailClient = () => {
                   psCode, psDesc, psName,
                   stime, etime,
                 })=>(
-                  <div className={styles.box} key={psCode}>
+                  <InfoBox key={psCode}>
                     <p className={styles.name}>{psName}</p>
                     <p className={styles.desc}>{psDesc}</p>
                     <p className={styles.time}>이용시간 : {stime} - {etime}</p>
-                  </div>
+                  </InfoBox>
                 ))
               }
             </div>
@@ -61,11 +62,11 @@ const DetailClient = () => {
                   brdCode, brdDesc, brdName,
                   stime, etime,
                 })=>(
-                  <div className={styles.box} key={brdCode}>
+                  <InfoBox key={brdCode}>
                     <p className={styles.name}>{brdName}</p>
                     <p className={styles.desc}>{brdDesc}</p>
                     <p className={styles.time}>이용시간 : {stime} - {etime}</p>
-                  </div>
+                  </InfoBox>
                 ))
               }
             </div>
