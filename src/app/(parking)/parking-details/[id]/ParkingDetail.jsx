@@ -34,12 +34,12 @@ const ParkingDetail = () => {
           <>
             <DetailHeader name={info?.svarNm} addr={info?.svarAddr} />
 
-            <div className={styles[`box-wrapper`]}>
+            <div className='box-wrapper'>
               <InfoBox>
-                <p className={styles.name}>전체 주차 대수</p>
-                <p className={styles.desc}>소형차 주차 대수 : {info.cocrPrkgTrcn}</p>
-                <p className={styles.desc}>대형차 주차 대수 : {info.fscarPrkgTrcn}</p>
-                <p className={styles.desc}>장애인 주차 대수 : {info.fscarPrkgTrcn}</p>
+                <p className='name'>전체 주차 대수</p>
+                <p className='desc'>소형차 주차 대수 : {info.cocrPrkgTrcn}</p>
+                <p className='desc'>대형차 주차 대수 : {info.fscarPrkgTrcn}</p>
+                <p className='desc'>장애인 주차 대수 : {info.fscarPrkgTrcn}</p>
               </InfoBox>
             </div>
           </>

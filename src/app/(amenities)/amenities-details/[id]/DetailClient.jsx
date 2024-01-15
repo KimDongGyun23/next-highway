@@ -47,9 +47,9 @@ const DetailClient = () => {
                   stime, etime,
                 })=>(
                   <InfoBox key={psCode}>
-                    <p className={styles.name}>{psName}</p>
-                    <p className={styles.desc}>{psDesc}</p>
-                    <p className={styles.time}>이용시간 : {stime} - {etime}</p>
+                    <p className='name'>{psName}</p>
+                    <p className='desc'>{psDesc}</p>
+                    <p className='desc'>이용시간 : {stime} - {etime}</p>
                   </InfoBox>
                 ))
               }
@@ -63,9 +63,9 @@ const DetailClient = () => {
                   stime, etime,
                 })=>(
                   <InfoBox key={brdCode}>
-                    <p className={styles.name}>{brdName}</p>
-                    <p className={styles.desc}>{brdDesc}</p>
-                    <p className={styles.time}>이용시간 : {stime} - {etime}</p>
+                    <p className='name'>{brdName}</p>
+                    <p className='desc'>{brdDesc}</p>
+                    <p className='desc'>이용시간 : {stime} - {etime}</p>
                   </InfoBox>
                 ))
               }

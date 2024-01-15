@@ -8,6 +8,7 @@ import { MdOutlineWorkspacePremium } from "react-icons/md";
 import { MdStars } from "react-icons/md";
 import NoData from '@/components/noData/NoData';
 import DetailHeader from '@/components/detailHeader/DetailHeader';
+import InfoBox from '@/components/infoBox/InfoBox';
 
 const FoodDetail = () => {
 
@@ -48,15 +49,15 @@ const FoodDetail = () => {
 
             </div>
             
-            <div className={styles[`box-wrapper`]}>
+            <div className='box-wrapper'>
               {
                 info.map(({
                   seq, foodNm, etc, foodCost,
                   premiumyn, recommendyn, bestfoodyn
                 })=>(
-                  <div className={styles.box} key={seq}>
+                  <InfoBox key={seq}>
                     <div className={styles.title}>
-                      <p className={styles.name}>{foodNm}</p>
+                      <p className='name'>{foodNm}</p>
 
                       <div>
                         { recommendyn === "Y" && <MdOutlineRecommend /> }
@@ -65,9 +66,9 @@ const FoodDetail = () => {
                       </div>
                     </div>
 
-                    <p>가격: {foodCost}원</p>
-                    { etc && <p className={styles.desc}>상세설명 : {etc}</p> }
-                  </div>
+                    <p className='desc'>가격: {foodCost}원</p>
+                    { etc && <p className='desc'>{etc}</p> }
+                  </InfoBox>
                 ))
               }
             </div>

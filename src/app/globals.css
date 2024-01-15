@@ -27,3 +27,22 @@ a {
 a:visited {
   color: inherit;
 }
+
+
+/* info-box */
+.box-wrapper{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.name {
+  color: var(--color-brown-4);
+  font-size: 23px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.desc {
+  margin-bottom: 10px;
+}
