@@ -90,7 +90,7 @@ const InfoList = ({ num }) => {
         <table>
           <thead>
             <tr>
-              <th>휴게소 명</th>
+              <th>{ num === 0 ? '휴게소 명' : '주유소 명'}</th>
               <th>주소</th>
             </tr>
           </thead>
