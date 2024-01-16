@@ -3,13 +3,21 @@ import React, { useState } from 'react'
 import styles from './SignInClient.module.scss'
 import Button from '@/components/button/Button'
 import Input from '@/components/input/Input'
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation'
+
 
 const SignInClient = () => {
   const [formData, setFormData] = useState({ email : "", password : "", passwordCheck : ""})
   const [error, setError] = useState("");
+  const router = useRouter();
 
   const handleInputChange = (e)=>{
     const { name, value } = e.target;
+
+    console.log("name : ", name)
+    console.log("value : ", value)
     
     setFormData({
       ...formData,
@@ -32,7 +40,7 @@ const SignInClient = () => {
       if(value?.length < 8) {
         setError("비밀번호는 8자리 이상으로 입력해주세요");
       }
-      else if (passwordCheck?.length > 0 && value !== passwordCheck) {
+      else if (formData.passwordCheck?.length > 0 && value !== formData.passwordCheck) {
         setError("비밀번호와 비밀번호 확인 값이 다릅니다. 다시 확인해주세요.")
       }
       else {
@@ -44,7 +52,7 @@ const SignInClient = () => {
       if(value?.length < 8) {
         setError("비밀번호는 8자리 이상으로 입력해주세요");
       }
-      else if (value !== password) {
+      else if (value !== formData.password) {
         setError("비밀번호와 비밀번호 확인 값이 다릅니다. 다시 확인해주세요.")
       }
       else {
@@ -53,9 +61,19 @@ const SignInClient = () => {
     }
   }
 
-  const handleSubmit = (e)=>{
+  const handleSubmit = async (e)=>{
     e.preventDefault();
-    
+    try {
+      const auth = getAuth(app);
+      await createUserWithEmailAndPassword(auth, email, password);
+
+      toast.success("회원가입에 성공했습니다.")
+      router('/');
+    } 
+    catch (error) {
+      console.log(error);
+      toast.error(error?.code);
+    }
   }
 
   return (

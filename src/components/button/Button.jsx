@@ -2,7 +2,6 @@ import React from 'react'
 import styles from './Button.module.scss'
 
 const Button = ({ secondary, disabled, ...restProps }) => {
-  console.log(disabled)
   return (
     <button
       className={`
