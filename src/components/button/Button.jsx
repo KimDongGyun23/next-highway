@@ -1,11 +1,15 @@
 import React from 'react'
 import styles from './Button.module.scss'
 
-const Button = ({ secondary, ...restProps }) => {
-
+const Button = ({ secondary, disabled, ...restProps }) => {
+  console.log(disabled)
   return (
     <button
-      className={`${styles.button} ${secondary ? styles.secondary : styles.primary}`}
+      className={`
+        ${styles.button} 
+        ${secondary ? styles.secondary : styles.primary}
+        ${disabled ? "" : styles[`not-disabled`]}
+      `}
       {...restProps}
     />
   )

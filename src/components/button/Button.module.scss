@@ -5,9 +5,11 @@
   border: none;
   outline: none;
   font-weight: 700;
+  background-color: var(--color-brown-2);
+  color: var(--color-brown-4);
 }
 
-.primary {
+.primary.not-disabled {
   background-color: var(--color-brown-4);
   color: var(--color-brown-1);
   transition: all 200ms;
@@ -18,7 +20,7 @@
   }
 }
 
-.secondary {
+.secondary.not-disabled {
   background-color: var(--color-brown-2);
   color: var(--color-brown-4);
   transition: all 200ms;

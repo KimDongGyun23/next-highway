@@ -28,7 +28,6 @@ const LoginClient = () => {
         <form onSubmit={handleSubmit}>
           <Input
             email
-            icon='letter'
             id='email'
             name='email'
             label='이메일'
@@ -39,7 +38,6 @@ const LoginClient = () => {
 
           <Input
             password
-            icon='lock'
             id='password'
             name='password'
             label='비밀번호'

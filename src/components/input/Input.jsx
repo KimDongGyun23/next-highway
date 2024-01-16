@@ -14,13 +14,12 @@ const Input = ({
   readOnly,
   disabled,
   value,
-  error: errorProp,
   className = '',
   onChange,
   ...restProps
 }) => {
 
-  const [inputValue, setInputValue] = useState(value ? value : null);
+  const [inputValue, setInputValue] = useState(value ? value : '');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const checkType = () => {
@@ -47,7 +46,7 @@ const Input = ({
       </label>
 
       <div
-        className={`${styles.box} ${errorProp && styles.inputWrapperError}`}
+        className={styles.box}
       >
         <input
           id={id}
@@ -75,11 +74,6 @@ const Input = ({
           </button>
         ) : null}
       </div>
-      {errorProp && (
-        <span role='alert' className={styles.error}>
-          {errorProp.message}
-        </span>
-      )}
     </>
   )
 }

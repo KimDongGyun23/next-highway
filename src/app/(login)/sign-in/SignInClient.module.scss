@@ -28,6 +28,12 @@
         flex-direction: column;
         gap: 20px;
       }
+
+      .error {
+        font-size: 15px;
+        font-weight: 700;
+        color: red;
+      }
     }
   }  
 }
