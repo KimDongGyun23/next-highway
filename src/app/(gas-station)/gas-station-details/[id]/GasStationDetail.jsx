@@ -3,8 +3,8 @@ import axios from 'axios';
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import styles from './GasStationDetail.module.scss'
-import NoData from '@/components/noData/NoData';
-import DetailHeader from '@/components/detailHeader/DetailHeader';
+import NoData from '@/components/no-data/NoData';
+import DetailHeader from '@/components/detail-header/DetailHeader';
 import InfoBox from '@/components/infoBox/InfoBox';
 
 const GasStationDetail = () => {

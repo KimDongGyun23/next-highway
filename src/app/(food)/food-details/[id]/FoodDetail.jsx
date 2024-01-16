@@ -6,8 +6,8 @@ import styles from './FoodDetail.module.scss'
 import { MdOutlineRecommend } from "react-icons/md";
 import { MdOutlineWorkspacePremium } from "react-icons/md";
 import { MdStars } from "react-icons/md";
-import NoData from '@/components/noData/NoData';
-import DetailHeader from '@/components/detailHeader/DetailHeader';
+import NoData from '@/components/no-data/NoData';
+import DetailHeader from '@/components/detail-header/DetailHeader';
 import InfoBox from '@/components/infoBox/InfoBox';
 
 const FoodDetail = () => {

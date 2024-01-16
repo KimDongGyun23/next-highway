@@ -52,7 +52,7 @@ const HeaderClient = () => {
       </ul>
 
       <Button>
-        로그인
+        <Link href={'/login'}>로그인</Link>
       </Button>
       
     </header>
