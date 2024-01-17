@@ -1,5 +1,6 @@
 import Header from '@/layout/header/Header';
 import './globals.css'
+import ToastProvider from '@/components/toastProvider/ToastProvider'
 import { Noto_Sans_KR } from 'next/font/google'
 
 const notoSansKr = Noto_Sans_KR({
@@ -17,6 +18,7 @@ export default function RootLayout({ children }) {
     <html lang="ko">
       <body className={notoSansKr.className}>
         <Header />
+        <ToastProvider />
         {children}
       </body>
     </html>

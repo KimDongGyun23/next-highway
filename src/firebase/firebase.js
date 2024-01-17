@@ -1,13 +1,14 @@
-import { getApp, initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/app";
+import { getAuth } from 'firebase/auth'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_API_KEY,
-  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_MESSAGING_SENTER_ID,
-  appId: process.env.REACT_APP_ID,
+  apiKey: process.env.NEXT_PUBLIC_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENTER_ID,
+  appId: process.env.NEXT_PUBLIC_ID
 };
 
 export let app;
@@ -17,7 +18,5 @@ try {
 } catch (error) {
   app = initializeApp(firebaseConfig, "app")
 }
+export const auth = getAuth(app);
 
-// Initialize Firebase
-const firebase = initializeApp(firebaseConfig);
-export default firebase;

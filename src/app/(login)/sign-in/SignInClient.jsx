@@ -3,9 +3,11 @@ import React, { useState } from 'react'
 import styles from './SignInClient.module.scss'
 import Button from '@/components/button/Button'
 import Input from '@/components/input/Input'
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation'
+
+import { auth } from '@/firebase/firebase'
+import { toast } from 'react-toastify';
+import { createUserWithEmailAndPassword } from 'firebase/auth'
 
 
 const SignInClient = () => {
@@ -15,9 +17,6 @@ const SignInClient = () => {
 
   const handleInputChange = (e)=>{
     const { name, value } = e.target;
-
-    console.log("name : ", name)
-    console.log("value : ", value)
     
     setFormData({
       ...formData,
@@ -64,11 +63,10 @@ const SignInClient = () => {
   const handleSubmit = async (e)=>{
     e.preventDefault();
     try {
-      const auth = getAuth(app);
-      await createUserWithEmailAndPassword(auth, email, password);
+      await createUserWithEmailAndPassword(auth, formData.email, formData.password);
 
       toast.success("회원가입에 성공했습니다.")
-      router('/');
+      router.replace('/')
     } 
     catch (error) {
       console.log(error);
