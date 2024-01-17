@@ -1,9 +1,8 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styles from './SidebarClient.module.scss'
 import { useDispatch, useSelector } from 'react-redux';
 import { SET_FILTERED_INFO, SET_CURRENT_PAGE, selectAllHighwayInfo } from '@/redux/slice/infoSlice';
-
 
 const AreaName = [
   "모두 보기", "서울", "경기", "강원", "충북", "충남", "전북", "전남", "경북", "경남"
@@ -16,11 +15,11 @@ const SidebarClient = () => {
   const dispatch = useDispatch();
 
   const handleClick = (area) => {
-    
     if ( area === "모두 보기") {
       const filteredItems = allHighwayInfo;
       dispatch(SET_FILTERED_INFO(filteredItems));
     }
+
     else {
       const filteredItems = allHighwayInfo.filter(({ svarAddr }) => svarAddr.startsWith(area));
       dispatch(SET_FILTERED_INFO(filteredItems));

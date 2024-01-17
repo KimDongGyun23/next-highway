@@ -13,18 +13,14 @@ const SearchForm = () => {
   const allHighwayInfo = useSelector(selectAllHighwayInfo);
 
 
+  // 검색어가 해당 항목에 포함되어 있는지 확인
   useEffect(()=>{
-    handleSearchInput(debouncedSearch);
-  },[debouncedSearch])
-
-  const handleSearchInput = (search)=>{
     const filteredResults = allHighwayInfo.filter((item) => (
-      // 검색어가 해당 항목에 포함되어 있는지 확인
-        item.svarNm.includes(search) || item.svarAddr.includes(search)
+      item.svarNm.includes(debouncedSearch) || item.svarAddr.includes(debouncedSearch)
     ));
 
     dispatch(SET_FILTERED_INFO(filteredResults));
-  }
+  },[debouncedSearch])
 
   return (
     <form>
