@@ -5,11 +5,16 @@ import Link from 'next/link'
 import Button from '@/components/button/Button'
 import { auth } from '@/firebase/firebase'
 import { onAuthStateChanged } from 'firebase/auth'
+import { useDispatch, useSelector } from 'react-redux'
+import { REMOVE_ACTIVE_USER, SET_ACTIVE_USER, selectIsLoggedIn } from '@/redux/slice/authSlice'
 
 const HeaderClient = () => {
   const [selected, setSelected] = useState("/");
   const [displayName, setDisplayName] = useState('');
-  const [isLogined, setIsLogined] = useState(false);
+
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  
+  const dispatch = useDispatch();
 
   const handleButtonClick = (path) => {
     setSelected(path);
@@ -24,13 +29,21 @@ const HeaderClient = () => {
         // 첫 글자 대문자
         const uName = u1.charAt(0).toUpperCase() + u1.slice(1);
         setDisplayName(uName);
-        setIsLogined(true);
+
+        // 유저 정보를 리덕스 스토어에 저장하기
+        dispatch(SET_ACTIVE_USER({
+          email: user.email,
+          userName: displayName,
+          userID: user.uid
+        }))
+
+
       } else {
         setDisplayName('');
-        setIsLogined(false)
+        dispatch(REMOVE_ACTIVE_USER());
       }
     })
-  }, [displayName])
+  }, [dispatch, displayName])
 
 
   return (
@@ -74,7 +87,7 @@ const HeaderClient = () => {
       </ul>
 
       {
-        isLogined ? (
+        isLoggedIn ? (
           <Button>
             <Link href={'/profile'}>{displayName} 님</Link>
           </Button>
