@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, { useEffect } from 'react'
 import styles from './InfoList.module.scss'
 import Pagination from '@/components/pagination/Pagination';
-import SearchForm from '@/components/form/searchForm';
+import SearchForm from '@/components/form/SearchForm';
 import { useRouter } from 'next/navigation';
 import Sidebar from '@/layout/sidebar/Sidebar';
 import { useDispatch, useSelector } from 'react-redux';
