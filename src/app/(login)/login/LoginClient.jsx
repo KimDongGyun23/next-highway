@@ -69,7 +69,7 @@ const LoginClient = () => {
 
           <div className={styles[`btn-filed`]}>
             <Button type='submit'>로그인</Button>
-            <Button secondary={true}>
+            <Button type='button' secondary={true}>
               <Link href={'/sign-in'}>회원가입</Link>
             </Button>
           </div>
