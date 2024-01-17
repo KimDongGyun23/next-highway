@@ -4,8 +4,8 @@ import styles from './LoginClient.module.scss'
 import Button from '@/components/button/Button'
 import Link from 'next/link'
 import Input from '@/components/input/Input'
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
-import { app } from '@/firebase/firebase'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '@/firebase/firebase'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
 
@@ -25,7 +25,6 @@ const LoginClient = () => {
     e.preventDefault();
 
     try {
-      const auth = getAuth(app);
       await signInWithEmailAndPassword(auth, formData.email, formData.password);
 
       toast.success("로그인에 성공했습니다.");
