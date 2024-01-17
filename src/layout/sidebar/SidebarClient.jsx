@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import styles from './SidebarClient.module.scss'
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_DISPLAYED_INFO, SET_CURRENT_PAGE, selectAllHighwayInfo } from '@/redux/slice/infoSlice';
+import { SET_FILTERED_INFO, SET_CURRENT_PAGE, selectAllHighwayInfo } from '@/redux/slice/infoSlice';
 
 
 const AreaName = [
@@ -19,11 +19,11 @@ const SidebarClient = () => {
     
     if ( area === "모두 보기") {
       const filteredItems = allHighwayInfo;
-      dispatch(SET_DISPLAYED_INFO(filteredItems));
+      dispatch(SET_FILTERED_INFO(filteredItems));
     }
     else {
       const filteredItems = allHighwayInfo.filter(({ svarAddr }) => svarAddr.startsWith(area));
-      dispatch(SET_DISPLAYED_INFO(filteredItems));
+      dispatch(SET_FILTERED_INFO(filteredItems));
     }
     
     setActiveCity(area);

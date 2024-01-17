@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import styles from './Pagination.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_CURRENT_PAGE, selectCurrentPage, selectDisplayedInfo, selectInfoPerPage } from '@/redux/slice/infoSlice';
+import { SET_CURRENT_PAGE, selectCurrentPage, selectFilteredInfo, selectInfoPerPage } from '@/redux/slice/infoSlice';
 
 const Pagination = () => {
 
   const pageNumbers = [];
   const dispatch = useDispatch();
   const currentPage = useSelector(selectCurrentPage);
-  const displayedInfo = useSelector(selectDisplayedInfo);
+  const filteredInfo = useSelector(selectFilteredInfo);
   const infoPerPage = useSelector(selectInfoPerPage);
 
   // 화살표 사이 페이지 개수
@@ -44,7 +44,7 @@ const Pagination = () => {
   }
 
   // 페이지 숫자 집합
-  for (let i = 1; i <= Math.ceil(displayedInfo.length / infoPerPage); i++) {
+  for (let i = 1; i <= Math.ceil(filteredInfo.length / infoPerPage); i++) {
     pageNumbers.push(i);
   }
 

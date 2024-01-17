@@ -2,7 +2,7 @@ const { createSlice } = require("@reduxjs/toolkit")
 
 const initialState = {
   allHighwayInfo : [],
-  displayedInfo : [],
+  filteredInfo : [],
   currentPage : 1,
   infoPerPage : 7,
 }
@@ -14,8 +14,8 @@ const infoSlice = createSlice({
     SET_ALL_INFO: (state, action)=>{
       state.allHighwayInfo = action.payload;
     },
-    SET_DISPLAYED_INFO: (state, action)=>{
-      state.displayedInfo = action.payload;
+    SET_FILTERED_INFO: (state, action)=>{
+      state.filteredInfo = action.payload;
     },
     SET_CURRENT_PAGE: (state, action)=>{
       state.currentPage = action.payload;
@@ -23,9 +23,9 @@ const infoSlice = createSlice({
   }
 })
 
-export const { SET_ALL_INFO, SET_DISPLAYED_INFO, SET_CURRENT_PAGE } = infoSlice.actions;
+export const { SET_ALL_INFO, SET_FILTERED_INFO, SET_CURRENT_PAGE } = infoSlice.actions;
 export const selectAllHighwayInfo = (state)=>state.info.allHighwayInfo;
-export const selectDisplayedInfo = (state)=>state.info.displayedInfo;
+export const selectFilteredInfo = (state)=>state.info.filteredInfo;
 export const selectCurrentPage = (state)=>state.info.currentPage;
 export const selectInfoPerPage = (state)=>state.info.infoPerPage;
 

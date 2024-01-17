@@ -1,5 +1,5 @@
 import { useDebounce } from '@/hooks/useDebounce';
-import { SET_DISPLAYED_INFO, selectAllHighwayInfo } from '@/redux/slice/infoSlice';
+import { SET_FILTERED_INFO, selectAllHighwayInfo } from '@/redux/slice/infoSlice';
 import React, { useEffect, useState } from 'react'
 import { IoSearchSharp } from "react-icons/io5";
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,7 +23,7 @@ const SearchForm = () => {
         item.svarNm.includes(search) || item.svarAddr.includes(search)
     ));
 
-    dispatch(SET_DISPLAYED_INFO(filteredResults));
+    dispatch(SET_FILTERED_INFO(filteredResults));
   }
 
   return (

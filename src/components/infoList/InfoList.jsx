@@ -1,24 +1,21 @@
 'use client'
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import styles from './InfoList.module.scss'
 import Pagination from '@/components/pagination/Pagination';
 import SearchForm from '@/components/form/searchForm';
 import { useRouter } from 'next/navigation';
 import Sidebar from '@/layout/sidebar/Sidebar';
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_ALL_INFO, selectAllHighwayInfo, selectCurrentPage, selectDisplayedInfo, selectInfoPerPage } from '@/redux/slice/infoSlice';
+import { SET_ALL_INFO, selectCurrentPage, selectFilteredInfo, selectInfoPerPage } from '@/redux/slice/infoSlice';
 
 const InfoList = ({ num }) => {
   
   const router = useRouter();
   const dispatch = useDispatch();
 
-  // 전체 정보 저장
-  const allHighwayInfo = useSelector(selectAllHighwayInfo);
-
   // 필터링된 정보 저장
-  const displayedInfo = useSelector(selectDisplayedInfo);
+  const filteredInfo = useSelector(selectFilteredInfo);
 
   // 현재 페이지
   const currentPage = useSelector(selectCurrentPage);
@@ -36,7 +33,7 @@ const InfoList = ({ num }) => {
   const indexOfFirstProduct = indexOfLastProduct - infoPerPage;
   
   // 현재 보여지는 정보들
-  const currentProducts = displayedInfo.slice( indexOfFirstProduct, indexOfLastProduct )
+  const currentProducts = filteredInfo.slice( indexOfFirstProduct, indexOfLastProduct )
 
   // 정보 가져올 URL
   // svarGsstClassCd = 0:휴게소 1:주유소
