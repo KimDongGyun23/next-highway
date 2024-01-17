@@ -21,8 +21,8 @@ export default function RootLayout({ children }) {
         <Providers>
           <Header />
           <ToastProvider />
+          {children}
         </Providers>
-        {children}
       </body>
     </html>
   )

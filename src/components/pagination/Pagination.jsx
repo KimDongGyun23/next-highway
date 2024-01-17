@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import styles from './Pagination.module.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import { SET_CURRENT_PAGE, selectCurrentPage, selectDisplayedInfo, selectInfoPerPage } from '@/redux/slice/infoSlice';
 
-const Pagination = ({
-  currentPage,
-  productsPerPage,
-  setCurrentPage,
-  totalLength
-}) => {
+const Pagination = () => {
 
   const pageNumbers = [];
+  const dispatch = useDispatch();
+  const currentPage = useSelector(selectCurrentPage);
+  const displayedInfo = useSelector(selectDisplayedInfo);
+  const infoPerPage = useSelector(selectInfoPerPage);
 
   // 화살표 사이 페이지 개수
   const [pageNumberLimit] = useState(5);
@@ -17,12 +18,12 @@ const Pagination = ({
 
   // 현재 페이지 수정
   const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
+    dispatch(SET_CURRENT_PAGE(pageNumber));
   }
 
   // 다음 페이지로 이동
   const paginateNextPage = () => {
-    setCurrentPage(currentPage + 1);
+    dispatch(SET_CURRENT_PAGE(currentPage + 1));
 
     // 페이지 숫자 번호 집합 변경
     if (currentPage + 1 > maxPageNumberLimit) {
@@ -33,7 +34,7 @@ const Pagination = ({
 
   // 이전 페이지로 이동
   const paginatePrevPage = () => {
-    setCurrentPage(currentPage - 1);
+    dispatch(SET_CURRENT_PAGE(currentPage - 1));
 
     // 페이지 숫자 번호 집합 변경
     if ((currentPage - 1) % pageNumberLimit === 0) {
@@ -43,7 +44,7 @@ const Pagination = ({
   }
 
   // 페이지 숫자 집합
-  for (let i = 1; i <= Math.ceil(totalLength / productsPerPage); i++) {
+  for (let i = 1; i <= Math.ceil(displayedInfo.length / infoPerPage); i++) {
     pageNumbers.push(i);
   }
 

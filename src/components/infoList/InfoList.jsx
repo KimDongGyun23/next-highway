@@ -6,34 +6,37 @@ import Pagination from '@/components/pagination/Pagination';
 import SearchForm from '@/components/form/searchForm';
 import { useRouter } from 'next/navigation';
 import Sidebar from '@/layout/sidebar/Sidebar';
+import { useDispatch, useSelector } from 'react-redux';
+import { SET_ALL_INFO, selectAllHighwayInfo, selectCurrentPage, selectDisplayedInfo, selectInfoPerPage } from '@/redux/slice/infoSlice';
 
 const InfoList = ({ num }) => {
-  // 라우터
+  
   const router = useRouter();
+  const dispatch = useDispatch();
+
+  // 전체 정보 저장
+  const allHighwayInfo = useSelector(selectAllHighwayInfo);
+
+  // 필터링된 정보 저장
+  const displayedInfo = useSelector(selectDisplayedInfo);
+
+  // 현재 페이지
+  const currentPage = useSelector(selectCurrentPage);
   
   // 현재 페이지 url
   const currentUrl = typeof window !== 'undefined' ? window.location.pathname : '';
   
-  // 전체 정보 저장
-  const [allHighwayInfo, setAllHighwayInfo] = useState([]);
-
-  // 필터링된 정보 저장
-  const [displayedHighwayInfo, setDisplayedHighwayInfo] = useState([]);
-
   // 한 페이지 당 보여지는 개수
-  const [productsPerPage, setProductsPerPage] = useState(7);
+  const infoPerPage = useSelector(selectInfoPerPage);
 
-  // 현재 페이지
-  const [currentPage, setCurrentPage] = useState(1);
-  
   // 다음 페이지의 1번
-  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfLastProduct = currentPage * infoPerPage;
 
   // 현재 페이지의 1번
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - infoPerPage;
   
   // 현재 보여지는 정보들
-  const currentProducts = displayedHighwayInfo.slice( indexOfFirstProduct, indexOfLastProduct )
+  const currentProducts = displayedInfo.slice( indexOfFirstProduct, indexOfLastProduct )
 
   // 정보 가져올 URL
   // svarGsstClassCd = 0:휴게소 1:주유소
@@ -54,8 +57,8 @@ const InfoList = ({ num }) => {
         if (nameA > nameB) { return 1; }
         return 0; // 같은 경우 유지
       });
-      setAllHighwayInfo(temp);
-      setDisplayedHighwayInfo(temp);
+
+      dispatch(SET_ALL_INFO(temp));
     } 
     catch (error) {
       console.log(error);
@@ -74,18 +77,11 @@ const InfoList = ({ num }) => {
     <div className={styles.container}>
 
       <div>
-        <Sidebar 
-          allHighwayInfo={allHighwayInfo} 
-          setDisplayedHighwayInfo={setDisplayedHighwayInfo}
-          setCurrentPage={setCurrentPage}
-        />
+        <Sidebar/>
       </div>
 
       <div className={styles.content}>
-        <SearchForm 
-          allHighwayInfo={allHighwayInfo}
-          setDisplayedHighwayInfo={setDisplayedHighwayInfo}
-        />
+        <SearchForm />
 
         <table>
           <thead>
@@ -110,12 +106,7 @@ const InfoList = ({ num }) => {
           </tbody>
         </table>
 
-        <Pagination 
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          totalLength = {displayedHighwayInfo.length}
-          productsPerPage={productsPerPage}
-        />
+        <Pagination />
       </div>
     </div>
   )
