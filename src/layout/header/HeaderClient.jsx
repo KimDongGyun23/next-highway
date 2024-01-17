@@ -24,8 +24,10 @@ const HeaderClient = () => {
         // 첫 글자 대문자
         const uName = u1.charAt(0).toUpperCase() + u1.slice(1);
         setDisplayName(uName);
+        setIsLogined(true);
       } else {
         setDisplayName('');
+        setIsLogined(false)
       }
     })
   }, [displayName])
@@ -74,11 +76,11 @@ const HeaderClient = () => {
       {
         isLogined ? (
           <Button>
-            <Link href={'/login'}>로그인</Link>
+            <Link href={'/profile'}>{displayName} 님</Link>
           </Button>
         ) : (
           <Button>
-            <Link href={'/'}>{displayName} 님</Link>
+            <Link href={'/login'}>로그인</Link>
           </Button>
         )
       }
