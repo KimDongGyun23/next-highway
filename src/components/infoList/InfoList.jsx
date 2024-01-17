@@ -10,53 +10,36 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SET_ALL_INFO, selectCurrentPage, selectFilteredInfo, selectInfoPerPage } from '@/redux/slice/infoSlice';
 
 const InfoList = ({ num }) => {
-  
+
   const router = useRouter();
   const dispatch = useDispatch();
 
-  // 필터링된 정보 저장
   const filteredInfo = useSelector(selectFilteredInfo);
-
-  // 현재 페이지
+  const infoPerPage = useSelector(selectInfoPerPage);
   const currentPage = useSelector(selectCurrentPage);
   
   // 현재 페이지 url
   const currentUrl = typeof window !== 'undefined' ? window.location.pathname : '';
-  
-  // 한 페이지 당 보여지는 개수
-  const infoPerPage = useSelector(selectInfoPerPage);
 
-  // 다음 페이지의 1번
-  const indexOfLastProduct = currentPage * infoPerPage;
 
-  // 현재 페이지의 1번
-  const indexOfFirstProduct = indexOfLastProduct - infoPerPage;
-  
-  // 현재 보여지는 정보들
-  const currentProducts = filteredInfo.slice( indexOfFirstProduct, indexOfLastProduct )
+  // 현재 페이지와 다음 페이지의 첫 번째 인덱스 계산
+  const firstIndexOfNextPage = currentPage * infoPerPage;
+  const firstIndexOfCurrentPage = firstIndexOfNextPage - infoPerPage;
 
-  // 정보 가져올 URL
-  // svarGsstClassCd = 0:휴게소 1:주유소
+  // 현재 페이지에 보여지는 정보
+  const currentProducts = filteredInfo.slice( firstIndexOfCurrentPage, firstIndexOfNextPage )
+
+  // 정보 가져올 URL - svarGsstClassCd => 0:휴게소  1:주유소
   const url = `https://data.ex.co.kr/openapi/restinfo/hiwaySvarInfoList?key=test&type=json&svarGsstClssCd=${num}`;
 
 
-  // 휴게소 정보 저장
+  // 모든 데이터 저장
   const getHighwayInfo = async () => {
     try {
       const res = await axios.get(url);
-      
-      // 문자 정렬
-      const temp = res.data.list.sort((a, b) => {
-        const nameA = a.svarNm;
-        const nameB = b.svarNm;
-      
-        if (nameA < nameB) { return -1; }
-        if (nameA > nameB) { return 1; }
-        return 0; // 같은 경우 유지
-      });
-
-      dispatch(SET_ALL_INFO(temp));
+      dispatch(SET_ALL_INFO(res));
     } 
+
     catch (error) {
       console.log(error);
     }
