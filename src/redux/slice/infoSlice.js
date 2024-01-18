@@ -24,7 +24,8 @@ const infoSlice = createSlice({
         return 0;
       });
 
-      state.allHighwayInfo = temp
+      state.allHighwayInfo = temp;
+      state.filteredInfo = temp;
     },
 
     SET_FILTERED_INFO: (state, action)=>{

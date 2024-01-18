@@ -4,7 +4,7 @@ import styles from './SidebarClient.module.scss'
 import { useDispatch, useSelector } from 'react-redux';
 import { SET_FILTERED_INFO, SET_CURRENT_PAGE, selectAllHighwayInfo } from '@/redux/slice/infoSlice';
 
-const AreaName = [
+const areaName = [
   "모두 보기", "서울", "경기", "강원", "충북", "충남", "전북", "전남", "경북", "경남"
 ];
 
@@ -37,7 +37,7 @@ const SidebarClient = () => {
 
       <ul>
         {
-          AreaName.map((area)=>(
+          areaName.map((area)=>(
             <li key={area}
               className={activeCity === area ? styles.active : null}
               onClick={()=>handleClick(area)}
