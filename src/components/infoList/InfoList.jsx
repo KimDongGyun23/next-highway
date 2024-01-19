@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import Sidebar from '@/layout/sidebar/Sidebar';
 import { useDispatch, useSelector } from 'react-redux';
 import { SET_ALL_INFO, selectCurrentPage, selectFilteredInfo, selectInfoPerPage } from '@/redux/slice/infoSlice';
+import { FaRegStar, FaStar  } from "react-icons/fa";
 
 const InfoList = ({ num }) => {
 
@@ -68,6 +69,7 @@ const InfoList = ({ num }) => {
             <tr>
               <th>{ num === 0 ? '휴게소 명' : '주유소 명'}</th>
               <th>주소</th>
+              <th className={styles.save}>저장</th>
             </tr>
           </thead>
           <tbody>
@@ -79,7 +81,8 @@ const InfoList = ({ num }) => {
                   onClick={()=>handleClick(svarCd)}
                 >
                   <td>{svarNm}</td>
-                  <td className={styles.addr}>{svarAddr}</td>
+                  <td>{svarAddr}</td>
+                  <td className={styles.save}><FaRegStar /></td>
                 </tr>
               ))
             }
