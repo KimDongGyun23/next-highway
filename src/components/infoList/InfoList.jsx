@@ -9,6 +9,7 @@ import Sidebar from '@/layout/sidebar/Sidebar';
 import { useDispatch, useSelector } from 'react-redux';
 import { SET_ALL_INFO, selectCurrentPage, selectFilteredInfo, selectInfoPerPage } from '@/redux/slice/infoSlice';
 import { FaRegStar, FaStar  } from "react-icons/fa";
+import { SET_BOOKMARKED_INFO } from '@/redux/slice/bookmarkSlice';
 
 const InfoList = ({ num }) => {
 
@@ -78,11 +79,16 @@ const InfoList = ({ num }) => {
                 <tr 
                   className={styles.trBody} 
                   key={svarCd}
-                  onClick={()=>handleClick(svarCd)}
+
                 >
-                  <td>{svarNm}</td>
-                  <td>{svarAddr}</td>
-                  <td className={styles.save}><FaRegStar /></td>
+                  <td onClick={()=>handleClick(svarCd)}>{svarNm}</td>
+                  <td onClick={()=>handleClick(svarCd)}>{svarAddr}</td>
+                  <td 
+                    className={styles.save}
+                    onClick={()=>(dispatch(SET_BOOKMARKED_INFO({svarCd, svarNm, svarAddr})))}
+                  >
+                    <FaRegStar />
+                  </td>
                 </tr>
               ))
             }
