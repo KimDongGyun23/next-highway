@@ -29,7 +29,7 @@ const InfoList = ({ num }) => {
   const firstIndexOfCurrentPage = firstIndexOfNextPage - infoPerPage;
 
   // 현재 페이지에 보여지는 정보
-  const currentProducts = filteredInfo.slice( firstIndexOfCurrentPage, firstIndexOfNextPage )
+  const currentProducts = filteredInfo?.slice( firstIndexOfCurrentPage, firstIndexOfNextPage )
 
   // 정보 가져올 URL - svarGsstClassCd => 0:휴게소  1:주유소
   const url = `https://data.ex.co.kr/openapi/restinfo/hiwaySvarInfoList?key=test&type=json&svarGsstClssCd=${num}`;
@@ -80,7 +80,7 @@ const InfoList = ({ num }) => {
           </thead>
           <tbody>
             {
-              currentProducts.map(({svarCd, svarNm, svarAddr, isBookmarked})=>(
+              currentProducts?.map(({svarCd, svarNm, svarAddr, isBookmarked})=>(
                 <tr 
                   className={styles.trBody} 
                   key={svarCd}
