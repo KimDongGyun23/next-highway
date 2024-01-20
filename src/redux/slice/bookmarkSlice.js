@@ -159,7 +159,7 @@ const bookmarkSlice = createSlice({
       )
     },
 
-    SET_DATA_FROM_FIREBASE : (state, action) => {
+    GET_DATA_FROM_FIREBASE : (state, action) => {
       state.amenitiesBookmarkedList =   action.payload.amenities;
       state.foodBookmarkedList =        action.payload.food;
       state.GasStationBookmarkedList =  action.payload.gasStation;

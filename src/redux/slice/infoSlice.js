@@ -53,6 +53,8 @@ const infoSlice = createSlice({
         }
       })
     },
+
+    
   }
 })
 
