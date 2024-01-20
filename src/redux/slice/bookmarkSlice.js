@@ -157,6 +157,14 @@ const bookmarkSlice = createSlice({
             result === 'add' ? toast.success("즐겨찾기에 추가했습니다.") : toast.success("즐겨찾기에서 삭제했습니다.")
           )
       )
+    },
+
+    SET_DATA_FROM_FIREBASE : (state, action) => {
+      state.amenitiesBookmarkedList =   action.payload.amenities;
+      state.foodBookmarkedList =        action.payload.food;
+      state.GasStationBookmarkedList =  action.payload.gasStation;
+      state.ParkingBookmarkedList =     action.payload.parking;
+      state.storageId =                 action.payload.userId;
     }
   }
 })
@@ -166,7 +174,8 @@ export const {
   SET_AMENITIES_BOOKMARK, 
   SET_FOOD_BOOKMARK, 
   SET_GASSTATION_BOOKMARK, 
-  SET_PARKING_BOOKMARK
+  SET_PARKING_BOOKMARK,
+  SET_DATA_FROM_FIREBASE
 } = bookmarkSlice.actions;
 
 export default bookmarkSlice.reducer;
