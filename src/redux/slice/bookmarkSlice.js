@@ -6,8 +6,8 @@ const { createSlice } = require("@reduxjs/toolkit")
 const initialState = {
   amenitiesBookmarkedList : [],
   foodBookmarkedList : [],
-  GasStationBookmarkedList : [],
-  ParkingBookmarkedList : [],
+  gasStationBookmarkedList : [],
+  parkingBookmarkedList : [],
   storageId : "",
 }
 
@@ -42,8 +42,8 @@ const bookmarkSlice = createSlice({
             userEmail : auth.currentUser.email,
             amenities : state.amenitiesBookmarkedList,
             food : state.foodBookmarkedList,
-            gasStation : state.GasStationBookmarkedList,
-            parking : state.ParkingBookmarkedList,
+            gasStation : state.gasStationBookmarkedList,
+            parking : state.parkingBookmarkedList,
           })
           .then(
             result === 'add' ? toast.success("즐겨찾기에 추가했습니다.") : toast.success("즐겨찾기에서 삭제했습니다.")
@@ -78,8 +78,8 @@ const bookmarkSlice = createSlice({
             userEmail : auth.currentUser.email,
             amenities : state.amenitiesBookmarkedList,
             food : state.foodBookmarkedList,
-            gasStation : state.GasStationBookmarkedList,
-            parking : state.ParkingBookmarkedList,
+            gasStation : state.gasStationBookmarkedList,
+            parking : state.parkingBookmarkedList,
           })
           .then(
             result === 'add' ? toast.success("즐겨찾기에 추가했습니다.") : toast.success("즐겨찾기에서 삭제했습니다.")
@@ -91,19 +91,19 @@ const bookmarkSlice = createSlice({
       const { svarCd, svarNm, svarAddr, isBookmarked } = action.payload;
 
       // 객체에 즐겨찾기 하고자 하는 항목이 있는지 확인
-      const index = state.GasStationBookmarkedList.findIndex(obj => obj.svarCd === svarCd);
+      const index = state.gasStationBookmarkedList.findIndex(obj => obj.svarCd === svarCd);
       let result = '';
 
       // 존재하면 제거, 존재하지 않으면 추가
       if (index !== -1) {
-        state.GasStationBookmarkedList.splice(index, 1);
+        state.gasStationBookmarkedList.splice(index, 1);
         result = 'remove'
       } else {
         const tempArr = [ 
-          ...state.GasStationBookmarkedList, 
+          ...state.gasStationBookmarkedList, 
           {svarCd, svarNm, svarAddr, isBookmarked : !isBookmarked} 
         ];
-        state.GasStationBookmarkedList = tempArr;
+        state.gasStationBookmarkedList = tempArr;
         result = 'add'
       }
 
@@ -114,8 +114,8 @@ const bookmarkSlice = createSlice({
             userEmail : auth.currentUser.email,
             amenities : state.amenitiesBookmarkedList,
             food : state.foodBookmarkedList,
-            gasStation : state.GasStationBookmarkedList,
-            parking : state.ParkingBookmarkedList,
+            gasStation : state.gasStationBookmarkedList,
+            parking : state.parkingBookmarkedList,
           })
           .then(
             result === 'add' ? toast.success("즐겨찾기에 추가했습니다.") : toast.success("즐겨찾기에서 삭제했습니다.")
@@ -127,19 +127,19 @@ const bookmarkSlice = createSlice({
       const { svarCd, svarNm, svarAddr, isBookmarked } = action.payload;
 
       // 객체에 즐겨찾기 하고자 하는 항목이 있는지 확인
-      const index = state.ParkingBookmarkedList.findIndex(obj => obj.svarCd === svarCd);
+      const index = state.parkingBookmarkedList.findIndex(obj => obj.svarCd === svarCd);
       let result = '';
 
       // 존재하면 제거, 존재하지 않으면 추가
       if (index !== -1) {
-        state.ParkingBookmarkedList.splice(index, 1);
+        state.parkingBookmarkedList.splice(index, 1);
         result = 'remove'
       } else {
         const tempArr = [ 
-          ...state.ParkingBookmarkedList, 
+          ...state.parkingBookmarkedList, 
           {svarCd, svarNm, svarAddr, isBookmarked : !isBookmarked} 
         ];
-        state.ParkingBookmarkedList = tempArr;
+        state.parkingBookmarkedList = tempArr;
         result = 'add'
       }
 
@@ -150,8 +150,8 @@ const bookmarkSlice = createSlice({
             userEmail : auth.currentUser.email,
             amenities : state.amenitiesBookmarkedList,
             food : state.foodBookmarkedList,
-            gasStation : state.GasStationBookmarkedList,
-            parking : state.ParkingBookmarkedList,
+            gasStation : state.gasStationBookmarkedList,
+            parking : state.parkingBookmarkedList,
           })
           .then(
             result === 'add' ? toast.success("즐겨찾기에 추가했습니다.") : toast.success("즐겨찾기에서 삭제했습니다.")
@@ -159,17 +159,9 @@ const bookmarkSlice = createSlice({
       )
     },
 
-    GET_DATA_FROM_FIREBASE : (state, action) => {
-      state.amenitiesBookmarkedList =   action.payload.amenities;
-      state.foodBookmarkedList =        action.payload.food;
-      state.GasStationBookmarkedList =  action.payload.gasStation;
-      state.ParkingBookmarkedList =     action.payload.parking;
-      state.storageId =                 action.payload.userId;
-    }
   }
 })
 
-export const selectBookmarkList = (state) => state.bookmark.bookmarkList;
 export const {
   SET_AMENITIES_BOOKMARK, 
   SET_FOOD_BOOKMARK, 

@@ -54,11 +54,33 @@ const infoSlice = createSlice({
       })
     },
 
-    
+    SET_INITIAL_BOOKMAKKED : (state, action)=>{
+      const dataArr = action.payload;
+      
+      dataArr.forEach(dataItem => {
+        const indexToRemove = state.allHighwayInfo.findIndex(item => item.svarCd === dataItem.svarCd);
+        if (indexToRemove !== -1) {
+          state.allHighwayInfo.splice(indexToRemove, 1);
+        }
+      });
+
+      const temp = [...state.allHighwayInfo, ...dataArr].sort((a, b) => {
+        const nameA = a.svarNm;
+        const nameB = b.svarNm;
+      
+        if (nameA < nameB) { return -1; }
+        if (nameA > nameB) { return 1; }
+        return 0;
+      });
+      
+      state.allHighwayInfo = temp;
+      state.filteredInfo = temp;
+    }
+
   }
 })
 
-export const { SET_ALL_INFO, SET_FILTERED_INFO, SET_CURRENT_PAGE, SET_BOOKMARKED } = infoSlice.actions;
+export const { SET_ALL_INFO, SET_FILTERED_INFO, SET_CURRENT_PAGE, SET_BOOKMARKED, SET_INITIAL_BOOKMAKKED } = infoSlice.actions;
 export const selectAllHighwayInfo = (state)=>state.info.allHighwayInfo;
 export const selectFilteredInfo = (state)=>state.info.filteredInfo;
 export const selectCurrentPage = (state)=>state.info.currentPage;

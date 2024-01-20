@@ -16,7 +16,7 @@ const areaName = [
 const SidebarClient = () => {
   const [activeCity, setActiveCity] = useState("모두 보기");
   const allHighwayInfo = useSelector(selectAllHighwayInfo);
-  const bookmarkedInfo = useSelector(selectBookmarkList);
+  // const bookmarkedInfo = useSelector(selectBookmarkList);
 
   const dispatch = useDispatch();
 

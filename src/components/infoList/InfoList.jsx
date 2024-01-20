@@ -7,9 +7,12 @@ import SearchForm from '@/components/form/SearchForm';
 import { useRouter } from 'next/navigation';
 import Sidebar from '@/layout/sidebar/Sidebar';
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_ALL_INFO, SET_BOOKMARKED, selectCurrentPage, selectFilteredInfo, selectInfoPerPage } from '@/redux/slice/infoSlice';
+import { SET_ALL_INFO, SET_BOOKMARKED, SET_INITIAL_BOOKMAKKED, selectCurrentPage, selectFilteredInfo, selectInfoPerPage } from '@/redux/slice/infoSlice';
 import { FaRegStar, FaStar  } from "react-icons/fa";
 import { SET_AMENITIES_BOOKMARK, SET_BOOKMARKED_INFO, SET_FOOD_BOOKMARK, SET_GASSTATION_BOOKMARK, SET_PARKING_BOOKMARK } from '@/redux/slice/bookmarkSlice';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth, db } from '@/firebase/firebase';
+import { doc, getDoc } from 'firebase/firestore';
 
 const InfoList = ({ num }) => {
 
@@ -47,8 +50,36 @@ const InfoList = ({ num }) => {
     }
   }
 
+
+  const getFirebaseData = async () => {
+    const docSnap = await getDoc(doc(db, "bookmarked", auth.currentUser.uid));
+  
+    if (docSnap.exists()) {
+
+      switch(currentUrl) {
+        case '/amenities':    return docSnap.data().amenities;
+        case '/food':         return docSnap.data().food;
+        case '/gas-station' : return docSnap.data().gasStation;
+        case '/parking' :     return docSnap.data().parking;
+      }
+    }
+  }
+
+
+
   useEffect(() => {
     getHighwayInfo();
+
+
+
+    onAuthStateChanged(auth, (user) => {
+      if(user) {
+        getFirebaseData().then((dataArr)=>{
+          dispatch(SET_INITIAL_BOOKMAKKED(dataArr))
+        });
+      }
+    });
+
   }, [])
 
   const handleClick = (svarCd) => {
@@ -56,8 +87,6 @@ const InfoList = ({ num }) => {
   }
 
   const handleSaveClick = (infoObj)=>{
-    dispatch(SET_BOOKMARKED(infoObj.svarCd))
-
     switch(currentUrl) {
       case '/amenities':    dispatch(SET_AMENITIES_BOOKMARK(infoObj)); break;
       case '/food':         dispatch(SET_FOOD_BOOKMARK(infoObj)); break;
@@ -98,6 +127,7 @@ const InfoList = ({ num }) => {
                     className={styles.save}
                     onClick={()=>handleSaveClick({svarCd, svarNm, svarAddr, isBookmarked})}
                   >
+                    {console.log("svarNm", svarNm, " is ", isBookmarked)}
                     {
                       isBookmarked ? <FaStar /> : <FaRegStar />
                     }
