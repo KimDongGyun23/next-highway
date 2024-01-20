@@ -58,6 +58,11 @@ const InfoList = ({ num }) => {
   const handleSaveClick = ({svarCd, svarNm, svarAddr, isBookmarked})=>{
     dispatch(SET_BOOKMARKED(svarCd))
     dispatch(SET_BOOKMARKED_INFO({svarCd, svarNm, svarAddr, isBookmarked}));
+
+
+
+
+
   }
 
   return (
