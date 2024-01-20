@@ -24,8 +24,11 @@ const infoSlice = createSlice({
         return 0;
       });
 
-      state.allHighwayInfo = temp;
-      state.filteredInfo = temp;
+      state.allHighwayInfo = temp.map(({svarCd, svarNm, svarAddr}) => ({
+        svarCd, svarNm, svarAddr,
+        isBookmarked : false
+      }));
+      state.filteredInfo = state.allHighwayInfo;
     },
 
     SET_FILTERED_INFO: (state, action)=>{
@@ -35,10 +38,25 @@ const infoSlice = createSlice({
     SET_CURRENT_PAGE: (state, action)=>{
       state.currentPage = action.payload;
     },
+    
+    SET_BOOKMARKED: (state, action)=>{
+      state.filteredInfo.forEach(obj => {
+        if (obj.svarCd === action.payload) {
+          obj.isBookmarked = !obj.isBookmarked;
+          return;
+        }
+      })
+      state.allHighwayInfo.forEach(obj => {
+        if (obj.svarCd === action.payload) {
+          obj.isBookmarked = !obj.isBookmarked;
+          return;
+        }
+      })
+    },
   }
 })
 
-export const { SET_ALL_INFO, SET_FILTERED_INFO, SET_CURRENT_PAGE } = infoSlice.actions;
+export const { SET_ALL_INFO, SET_FILTERED_INFO, SET_CURRENT_PAGE, SET_BOOKMARKED } = infoSlice.actions;
 export const selectAllHighwayInfo = (state)=>state.info.allHighwayInfo;
 export const selectFilteredInfo = (state)=>state.info.filteredInfo;
 export const selectCurrentPage = (state)=>state.info.currentPage;

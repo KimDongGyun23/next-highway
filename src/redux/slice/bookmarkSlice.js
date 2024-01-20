@@ -9,12 +9,15 @@ const bookmarkSlice = createSlice({
   initialState,
   reducers : {
     SET_BOOKMARKED_INFO : (state, action) => {
-      const {svarCd, svarNm, svarAddr} = action.payload;
-      const tempArr = [
-        ...state.bookmarkList,
-        {svarCd, svarNm, svarAddr}
-      ];
-      state.bookmarkList = tempArr;
+      const {svarCd, svarNm, svarAddr, isBookmarked} = action.payload;
+      const index = state.bookmarkList.findIndex(obj => obj.svarCd === svarCd);
+
+      if (index !== -1) {
+        state.bookmarkList.splice(index, 1);
+      } else {
+        const tempArr = [ ...state.bookmarkList, {svarCd, svarNm, svarAddr, isBookmarked : !isBookmarked} ];
+        state.bookmarkList = tempArr;
+      }
     }
   }
 })

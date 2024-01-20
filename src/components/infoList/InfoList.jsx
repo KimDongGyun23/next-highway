@@ -7,7 +7,7 @@ import SearchForm from '@/components/form/SearchForm';
 import { useRouter } from 'next/navigation';
 import Sidebar from '@/layout/sidebar/Sidebar';
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_ALL_INFO, selectCurrentPage, selectFilteredInfo, selectInfoPerPage } from '@/redux/slice/infoSlice';
+import { SET_ALL_INFO, SET_BOOKMARKED, selectCurrentPage, selectFilteredInfo, selectInfoPerPage } from '@/redux/slice/infoSlice';
 import { FaRegStar, FaStar  } from "react-icons/fa";
 import { SET_BOOKMARKED_INFO } from '@/redux/slice/bookmarkSlice';
 
@@ -55,6 +55,11 @@ const InfoList = ({ num }) => {
     router.push(`${currentUrl}-details/${svarCd}`);
   }
 
+  const handleSaveClick = ({svarCd, svarNm, svarAddr, isBookmarked})=>{
+    dispatch(SET_BOOKMARKED(svarCd))
+    dispatch(SET_BOOKMARKED_INFO({svarCd, svarNm, svarAddr, isBookmarked}));
+  }
+
   return (
     <div className={styles.container}>
 
@@ -75,7 +80,7 @@ const InfoList = ({ num }) => {
           </thead>
           <tbody>
             {
-              currentProducts.map(({svarCd, svarNm, svarAddr})=>(
+              currentProducts.map(({svarCd, svarNm, svarAddr, isBookmarked})=>(
                 <tr 
                   className={styles.trBody} 
                   key={svarCd}
@@ -85,9 +90,11 @@ const InfoList = ({ num }) => {
                   <td onClick={()=>handleClick(svarCd)}>{svarAddr}</td>
                   <td 
                     className={styles.save}
-                    onClick={()=>(dispatch(SET_BOOKMARKED_INFO({svarCd, svarNm, svarAddr})))}
+                    onClick={()=>handleSaveClick({svarCd, svarNm, svarAddr, isBookmarked})}
                   >
-                    <FaRegStar />
+                    {
+                      isBookmarked ? <FaStar /> : <FaRegStar />
+                    }
                   </td>
                 </tr>
               ))
