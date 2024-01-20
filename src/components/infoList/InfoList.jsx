@@ -9,7 +9,7 @@ import Sidebar from '@/layout/sidebar/Sidebar';
 import { useDispatch, useSelector } from 'react-redux';
 import { SET_ALL_INFO, SET_BOOKMARKED, selectCurrentPage, selectFilteredInfo, selectInfoPerPage } from '@/redux/slice/infoSlice';
 import { FaRegStar, FaStar  } from "react-icons/fa";
-import { SET_BOOKMARKED_INFO } from '@/redux/slice/bookmarkSlice';
+import { SET_AMENITIES_BOOKMARK, SET_BOOKMARKED_INFO, SET_FOOD_BOOKMARK, SET_GASSTATION_BOOKMARK, SET_PARKING_BOOKMARK } from '@/redux/slice/bookmarkSlice';
 
 const InfoList = ({ num }) => {
 
@@ -55,14 +55,15 @@ const InfoList = ({ num }) => {
     router.push(`${currentUrl}-details/${svarCd}`);
   }
 
-  const handleSaveClick = ({svarCd, svarNm, svarAddr, isBookmarked})=>{
-    dispatch(SET_BOOKMARKED(svarCd))
-    dispatch(SET_BOOKMARKED_INFO({svarCd, svarNm, svarAddr, isBookmarked}));
+  const handleSaveClick = (infoObj)=>{
+    dispatch(SET_BOOKMARKED(infoObj.svarCd))
 
-
-
-
-
+    switch(currentUrl) {
+      case '/amenities':    dispatch(SET_AMENITIES_BOOKMARK(infoObj)); break;
+      case '/food':         dispatch(SET_FOOD_BOOKMARK(infoObj)); break;
+      case '/gas-station' : dispatch(SET_GASSTATION_BOOKMARK(infoObj)); break;
+      case '/parking' :     dispatch(SET_PARKING_BOOKMARK(infoObj)); break;
+    }
   }
 
   return (
