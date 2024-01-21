@@ -27,7 +27,11 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <div className={styles.image}>
-        <Image src={mainImg} alt="main-bg" />
+        <Image 
+          src={mainImg} 
+          alt="main-bg"
+          priority 
+        />
       </div>
 
       <div className={styles.title}>
