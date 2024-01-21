@@ -67,12 +67,6 @@ const bookmarkSlice = createSlice({
           ...state.foodBookmarkedList, 
           {svarCd, svarNm, svarAddr, isBookmarked : !isBookmarked} 
         ];
-
-        console.log("state.foodBookmarkedList", state.foodBookmarkedList)
-        console.log("temparr", tempArr)
-        
-        
-        
         state.foodBookmarkedList = tempArr;
         result = 'add'
       }
