@@ -8,20 +8,19 @@ import { useRouter } from 'next/navigation'
 import { auth } from '@/firebase/firebase'
 import { toast } from 'react-toastify';
 import { createUserWithEmailAndPassword } from 'firebase/auth'
+import Loader from '@/components/loader/Loader'
 
 
 const SignInClient = () => {
   const [formData, setFormData] = useState({ email : "", password : "", passwordCheck : ""})
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleInputChange = (e)=>{
     const { name, value } = e.target;
     
-    setFormData({
-      ...formData,
-      [name] : value
-    });
+    setFormData( { ...formData, [name] : value } );
 
     if (name === "email") {
       const validRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -62,6 +61,8 @@ const SignInClient = () => {
 
   const handleSubmit = async (e)=>{
     e.preventDefault();
+    setIsLoading(true);
+
     try {
       await createUserWithEmailAndPassword(auth, formData.email, formData.password);
 
@@ -72,10 +73,12 @@ const SignInClient = () => {
       console.log(error);
       toast.error(error?.code);
     }
+    setIsLoading(false);
   }
 
   return (
     <div className={styles.page}>
+      {isLoading && <Loader />}
       <div className={styles.container}>
         <h2 className={styles.title}>회원가입</h2>
         <form onSubmit={handleSubmit}>
