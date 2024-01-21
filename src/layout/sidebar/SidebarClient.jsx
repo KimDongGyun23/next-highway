@@ -4,7 +4,6 @@ import styles from './SidebarClient.module.scss'
 import { useDispatch, useSelector } from 'react-redux';
 import { SET_FILTERED_INFO, SET_CURRENT_PAGE, selectAllHighwayInfo } from '@/redux/slice/infoSlice';
 import { FaRegBookmark } from "react-icons/fa6";
-import { selectBookmarkList } from '@/redux/slice/bookmarkSlice';
 import { auth } from '@/firebase/firebase';
 import { toast } from 'react-toastify';
 
@@ -16,7 +15,6 @@ const areaName = [
 const SidebarClient = () => {
   const [activeCity, setActiveCity] = useState("모두 보기");
   const allHighwayInfo = useSelector(selectAllHighwayInfo);
-  // const bookmarkedInfo = useSelector(selectBookmarkList);
 
   const dispatch = useDispatch();
 
@@ -29,7 +27,8 @@ const SidebarClient = () => {
     else if ( area === "즐겨찾기") {
 
       if (auth?.currentUser) {
-        filteredItems = bookmarkedInfo
+        const temp = allHighwayInfo.filter(info => info.isBookmarked);
+        filteredItems = temp;
       } else {
         filteredItems = [];
         toast.warning("로그인이 필요합니다.");

@@ -39,48 +39,48 @@ const infoSlice = createSlice({
       state.currentPage = action.payload;
     },
     
-    SET_BOOKMARKED: (state, action)=>{
-      state.filteredInfo.forEach(obj => {
-        if (obj.svarCd === action.payload) {
-          obj.isBookmarked = !obj.isBookmarked;
-          return;
-        }
-      })
-      state.allHighwayInfo.forEach(obj => {
-        if (obj.svarCd === action.payload) {
-          obj.isBookmarked = !obj.isBookmarked;
-          return;
-        }
-      })
-    },
+    // SET_BOOKMARKED: (state, action)=>{
+    //   state.filteredInfo.forEach(obj => {
+    //     if (obj.svarCd === action.payload) {
+    //       obj.isBookmarked = !obj.isBookmarked;
+    //       return;
+    //     }
+    //   })
+    //   state.allHighwayInfo.forEach(obj => {
+    //     if (obj.svarCd === action.payload) {
+    //       obj.isBookmarked = !obj.isBookmarked;
+    //       return;
+    //     }
+    //   })
+    // },
 
-    SET_INITIAL_BOOKMAKKED : (state, action)=>{
+    SET_INITIAL_BOOKMARKED : (state, action)=>{
       const dataArr = action.payload;
+      const tempArr = [...state.allHighwayInfo];
       
       dataArr.forEach(dataItem => {
-        const indexToRemove = state.allHighwayInfo.findIndex(item => item.svarCd === dataItem.svarCd);
+        const indexToRemove = tempArr.findIndex(item => item.svarCd === dataItem.svarCd);
+
         if (indexToRemove !== -1) {
-          state.allHighwayInfo.splice(indexToRemove, 1);
+          tempArr.splice(indexToRemove, 1, dataItem);
         }
       });
-
-      const temp = [...state.allHighwayInfo, ...dataArr].sort((a, b) => {
-        const nameA = a.svarNm;
-        const nameB = b.svarNm;
       
-        if (nameA < nameB) { return -1; }
-        if (nameA > nameB) { return 1; }
-        return 0;
-      });
-      
-      state.allHighwayInfo = temp;
-      state.filteredInfo = temp;
+      state.allHighwayInfo = tempArr;
+      state.filteredInfo = tempArr;
     }
 
   }
 })
 
-export const { SET_ALL_INFO, SET_FILTERED_INFO, SET_CURRENT_PAGE, SET_BOOKMARKED, SET_INITIAL_BOOKMAKKED } = infoSlice.actions;
+export const { 
+  SET_ALL_INFO, 
+  SET_FILTERED_INFO, 
+  SET_CURRENT_PAGE, 
+  SET_BOOKMARKED, 
+  SET_INITIAL_BOOKMARKED 
+} = infoSlice.actions;
+
 export const selectAllHighwayInfo = (state)=>state.info.allHighwayInfo;
 export const selectFilteredInfo = (state)=>state.info.filteredInfo;
 export const selectCurrentPage = (state)=>state.info.currentPage;

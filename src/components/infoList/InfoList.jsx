@@ -7,12 +7,9 @@ import SearchForm from '@/components/form/SearchForm';
 import { useRouter } from 'next/navigation';
 import Sidebar from '@/layout/sidebar/Sidebar';
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_ALL_INFO, SET_BOOKMARKED, SET_INITIAL_BOOKMAKKED, selectCurrentPage, selectFilteredInfo, selectInfoPerPage } from '@/redux/slice/infoSlice';
+import { SET_ALL_INFO, SET_BOOKMARKED, SET_INITIAL_BOOKMARKED, selectCurrentPage, selectFilteredInfo, selectInfoPerPage } from '@/redux/slice/infoSlice';
 import { FaRegStar, FaStar  } from "react-icons/fa";
-import { SET_AMENITIES_BOOKMARK, SET_BOOKMARKED_INFO, SET_FOOD_BOOKMARK, SET_GASSTATION_BOOKMARK, SET_PARKING_BOOKMARK } from '@/redux/slice/bookmarkSlice';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth, db } from '@/firebase/firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import { SET_AMENITIES_BOOKMARK, SET_BOOKMARKED_INFO, SET_FOOD_BOOKMARK, SET_GASSTATION_BOOKMARK, SET_PARKING_BOOKMARK, selectAmenitiesBookmarkedList, selectFoodBookmarkedList, selectGasStationBookmarkedList, selectParkingBookmarkedList } from '@/redux/slice/bookmarkSlice';
 
 const InfoList = ({ num }) => {
 
@@ -38,11 +35,28 @@ const InfoList = ({ num }) => {
   const url = `https://data.ex.co.kr/openapi/restinfo/hiwaySvarInfoList?key=test&type=json&svarGsstClssCd=${num}`;
 
 
+  const amenities = useSelector(selectAmenitiesBookmarkedList);
+  const food = useSelector(selectFoodBookmarkedList);
+  const gasStation = useSelector(selectGasStationBookmarkedList);
+  const parking = useSelector(selectParkingBookmarkedList);
+
+
+
+
   // 모든 데이터 저장
   const getHighwayInfo = async () => {
     try {
+      // url로부터 정보를 받아와 저장
       const res = await axios.get(url);
       dispatch(SET_ALL_INFO(res));
+
+      // firebase로부터 정보를 받아와 저장
+      switch(window.location.pathname) {
+        case '/amenities':    dispatch(SET_INITIAL_BOOKMARKED(amenities)); break;
+        case '/food':         dispatch(SET_INITIAL_BOOKMARKED(food)); break;
+        case '/gas-station' : dispatch(SET_INITIAL_BOOKMARKED(gasStation)); break;
+        case '/parking' :     dispatch(SET_INITIAL_BOOKMARKED(parking)); break;
+      }
     } 
 
     catch (error) {
@@ -50,38 +64,17 @@ const InfoList = ({ num }) => {
     }
   }
 
-
-  const getFirebaseData = async () => {
-    const docSnap = await getDoc(doc(db, "bookmarked", auth.currentUser.uid));
-  
-    if (docSnap.exists()) {
-
-      switch(currentUrl) {
-        case '/amenities':    return docSnap.data().amenities;
-        case '/food':         return docSnap.data().food;
-        case '/gas-station' : return docSnap.data().gasStation;
-        case '/parking' :     return docSnap.data().parking;
-      }
-    }
-  }
-
-
-
   useEffect(() => {
     getHighwayInfo();
-
-
-
-    onAuthStateChanged(auth, (user) => {
-      if(user) {
-        getFirebaseData().then((dataArr)=>{
-          dispatch(SET_INITIAL_BOOKMAKKED(dataArr))
-        });
-      }
-    });
-
   }, [])
 
+
+
+
+
+
+
+  
   const handleClick = (svarCd) => {
     router.push(`${currentUrl}-details/${svarCd}`);
   }
@@ -127,7 +120,6 @@ const InfoList = ({ num }) => {
                     className={styles.save}
                     onClick={()=>handleSaveClick({svarCd, svarNm, svarAddr, isBookmarked})}
                   >
-                    {console.log("svarNm", svarNm, " is ", isBookmarked)}
                     {
                       isBookmarked ? <FaStar /> : <FaRegStar />
                     }
