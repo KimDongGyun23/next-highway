@@ -4,10 +4,12 @@ import styles from './Header.module.scss'
 import Link from 'next/link'
 import Button from '@/components/button/Button'
 import { auth } from '@/firebase/firebase'
-import { onAuthStateChanged } from 'firebase/auth'
+import { onAuthStateChanged, signOut } from 'firebase/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { REMOVE_ACTIVE_USER, SET_ACTIVE_USER, selectIsLoggedIn } from '@/redux/slice/authSlice'
 import { usePathname, useRouter } from 'next/navigation'
+import { SET_ALL_RESET } from '@/redux/slice/bookmarkSlice'
+import { toast } from 'react-toastify'
 
 const HeaderClient = () => {
   const [selected, setSelected] = useState("/");
@@ -15,6 +17,7 @@ const HeaderClient = () => {
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
   
+  const router = useRouter();
   const dispatch = useDispatch();
   const pathName = usePathname();
 
@@ -44,6 +47,19 @@ const HeaderClient = () => {
 
   const styleByPath = (path)=>{
     return pathName.includes(path) ?  `${styles.item} ${styles.active}` : styles.item
+  }
+
+  const onSignOut = async () => {
+    try {
+      await signOut(auth);
+      toast.success("로그아웃 되었습니다.");
+      router.replace('/');
+      dispatch(SET_ALL_RESET());
+    } 
+    catch (error) {
+      console.log(error);
+      toast.error(error?.code);
+    }
   }
 
   return (
@@ -76,9 +92,18 @@ const HeaderClient = () => {
 
       {
         isLoggedIn ? (
-          <Button>
-            <Link href={'/profile'}>{displayName} 님</Link>
-          </Button>
+          <div className={styles.profile}>
+            <Button className={styles[`btn-profile`]}>
+              <Link href={'/profile'}>{displayName} 님</Link>
+            </Button>
+            <Button 
+              className={styles[`btn-logout`]} 
+              secondary={true}
+              onClick={onSignOut}
+            >
+              로그아웃
+            </Button>
+          </div>
         ) : (
           <Button>
             <Link href={'/login'}>로그인</Link>

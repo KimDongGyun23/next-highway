@@ -44,4 +44,23 @@
       }
     }
   }
+  .profile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(25%);
+    transition: opacity 200ms;
+
+    .btn-logout {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    &:hover{
+      .btn-logout{
+        opacity: 100%;
+        visibility: visible;
+      }
+    }
+  }
 }
