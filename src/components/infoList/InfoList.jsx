@@ -4,13 +4,15 @@ import React, { useCallback, useEffect, useState } from 'react'
 import styles from './InfoList.module.scss'
 import Pagination from '@/components/pagination/Pagination';
 import SearchForm from '@/components/form/SearchForm';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Sidebar from '@/layout/sidebar/Sidebar';
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_ALL_INFO, SET_BOOKMARKED, SET_INITIAL_BOOKMARKED, selectCurrentPage, selectFilteredInfo, selectInfoPerPage } from '@/redux/slice/infoSlice';
+import { SET_ALL_INFO, SET_INITIAL_BOOKMARKED, TOGGLE_BOOKMARKED, selectCurrentPage, selectFilteredInfo, selectInfoPerPage } from '@/redux/slice/infoSlice';
 import { FaRegStar, FaStar  } from "react-icons/fa";
 import { SET_AMENITIES_BOOKMARK, SET_FOOD_BOOKMARK, SET_GASSTATION_BOOKMARK, SET_PARKING_BOOKMARK, selectAmenitiesBookmarkedList, selectFoodBookmarkedList, selectGasStationBookmarkedList, selectParkingBookmarkedList } from '@/redux/slice/bookmarkSlice';
 import Loader from '../loader/Loader';
+import { auth } from '@/firebase/firebase';
+import { toast } from 'react-toastify';
 
 const InfoList = ({ num }) => {
 
@@ -18,14 +20,11 @@ const InfoList = ({ num }) => {
 
   const router = useRouter();
   const dispatch = useDispatch();
+  const pathname = usePathname();
 
   const filteredInfo = useSelector(selectFilteredInfo);
   const infoPerPage = useSelector(selectInfoPerPage);
   const currentPage = useSelector(selectCurrentPage);
-  
-  // 현재 페이지 url
-  const currentUrl = typeof window !== 'undefined' ? window.location.pathname : '';
-
 
   // 현재 페이지와 다음 페이지의 첫 번째 인덱스 계산
   const firstIndexOfNextPage = currentPage * infoPerPage;
@@ -45,47 +44,49 @@ const InfoList = ({ num }) => {
 
 
 
-
   // 모든 데이터 저장
   const getHighwayInfo = useCallback(async () => {
-    
     setIsLoading(true);
-
     try {
       // url로부터 정보를 받아와 저장
       const res = await axios.get(url);
       dispatch(SET_ALL_INFO(res));
 
       // firebase로부터 정보를 받아와 저장
-      switch(window.location.pathname) {
+      switch(pathname) {
         case '/amenities':    dispatch(SET_INITIAL_BOOKMARKED(amenities)); break;
         case '/food':         dispatch(SET_INITIAL_BOOKMARKED(food)); break;
         case '/gas-station' : dispatch(SET_INITIAL_BOOKMARKED(gasStation)); break;
         case '/parking' :     dispatch(SET_INITIAL_BOOKMARKED(parking)); break;
       }
-    }
+    } 
     catch (error) {
       console.log(error);
     }
-    
     setIsLoading(false);
-  },[url, dispatch, amenities, food, gasStation, parking])
+  },[])
+
 
   useEffect(() => {
     getHighwayInfo();
   }, [getHighwayInfo])
 
-
   const handleInfoClick = (svarCd) => {
-    router.push(`${currentUrl}-details/${svarCd}`);
+    router.push(`${pathname}-details/${svarCd}`);
   }
 
   const handleSaveClick = (infoObj)=>{
-    switch(currentUrl) {
-      case '/amenities':    dispatch(SET_AMENITIES_BOOKMARK(infoObj)); break;
-      case '/food':         dispatch(SET_FOOD_BOOKMARK(infoObj)); break;
-      case '/gas-station' : dispatch(SET_GASSTATION_BOOKMARK(infoObj)); break;
-      case '/parking' :     dispatch(SET_PARKING_BOOKMARK(infoObj)); break;
+    if (auth?.currentUser){
+      switch(pathname) {
+        case '/amenities':    dispatch(SET_AMENITIES_BOOKMARK(infoObj)); break;
+        case '/food':         dispatch(SET_FOOD_BOOKMARK(infoObj)); break;
+        case '/gas-station' : dispatch(SET_GASSTATION_BOOKMARK(infoObj)); break;
+        case '/parking' :     dispatch(SET_PARKING_BOOKMARK(infoObj)); break;
+      }
+      dispatch(TOGGLE_BOOKMARKED(infoObj.svarCd));
+    }
+    else {
+      toast.warning("로그인이 필요합니다.");
     }
   }
 
