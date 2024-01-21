@@ -1,6 +1,6 @@
 'use client'
 import axios from 'axios';
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styles from './InfoList.module.scss'
 import Pagination from '@/components/pagination/Pagination';
 import SearchForm from '@/components/form/SearchForm';
@@ -10,8 +10,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SET_ALL_INFO, SET_BOOKMARKED, SET_INITIAL_BOOKMARKED, selectCurrentPage, selectFilteredInfo, selectInfoPerPage } from '@/redux/slice/infoSlice';
 import { FaRegStar, FaStar  } from "react-icons/fa";
 import { SET_AMENITIES_BOOKMARK, SET_FOOD_BOOKMARK, SET_GASSTATION_BOOKMARK, SET_PARKING_BOOKMARK, selectAmenitiesBookmarkedList, selectFoodBookmarkedList, selectGasStationBookmarkedList, selectParkingBookmarkedList } from '@/redux/slice/bookmarkSlice';
+import Loader from '../loader/Loader';
 
 const InfoList = ({ num }) => {
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -45,6 +48,9 @@ const InfoList = ({ num }) => {
 
   // 모든 데이터 저장
   const getHighwayInfo = useCallback(async () => {
+    
+    setIsLoading(true);
+
     try {
       // url로부터 정보를 받아와 저장
       const res = await axios.get(url);
@@ -57,11 +63,12 @@ const InfoList = ({ num }) => {
         case '/gas-station' : dispatch(SET_INITIAL_BOOKMARKED(gasStation)); break;
         case '/parking' :     dispatch(SET_INITIAL_BOOKMARKED(parking)); break;
       }
-    } 
-
+    }
     catch (error) {
       console.log(error);
     }
+    
+    setIsLoading(false);
   },[url, dispatch, amenities, food, gasStation, parking])
 
   useEffect(() => {
@@ -90,6 +97,8 @@ const InfoList = ({ num }) => {
       </div>
 
       <div className={styles.content}>
+        {isLoading && <Loader />}
+
         <SearchForm />
 
         <table>

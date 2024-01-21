@@ -6,17 +6,23 @@ import styles from './ParkingDetail.module.scss'
 import NoData from '@/components/no-data/NoData';
 import DetailHeader from '@/components/detail-header/DetailHeader';
 import InfoBox from '@/components/infoBox/InfoBox';
+import Loader from '@/components/loader/Loader';
 
 const ParkingDetail = () => {
   const [info, setInfo] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { id } = useParams();
 
   const url = `https://data.ex.co.kr/openapi/restinfo/hiwaySvarInfoList?key=test&type=json&svarCd=${id}`
 
   const getInfo = async () => {
+    setIsLoading(true);
+
     const res = await axios.get(url);
     setInfo(res.data.list[0]);
+    
+    setIsLoading(false);
   }
 
   useEffect(()=>{
@@ -25,6 +31,7 @@ const ParkingDetail = () => {
 
   return (
     <div className={styles.container}>
+      {isLoading && <Loader />}
       {
         info.length === 0 ?
         (

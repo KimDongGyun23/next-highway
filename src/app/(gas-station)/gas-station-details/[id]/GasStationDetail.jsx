@@ -6,10 +6,12 @@ import styles from './GasStationDetail.module.scss'
 import NoData from '@/components/no-data/NoData';
 import DetailHeader from '@/components/detail-header/DetailHeader';
 import InfoBox from '@/components/infoBox/InfoBox';
+import Loader from '@/components/loader/Loader';
 
 const GasStationDetail = () => {
   const [info, setInfo] = useState([]);
   const [oilInfo, setOilInfo] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { id } = useParams();
 
@@ -18,10 +20,14 @@ const GasStationDetail = () => {
   const oilUrl = `https://data.ex.co.kr/openapi/business/curStateStation?key=test&type=json&numOfRows=50&pageNo=1&serviceAreaCode2=${id}`;
 
   const getInfo = async () => {
+    setIsLoading(true);
+
     const res = await axios.get(url);
     const oilRes = await axios.get(oilUrl);
     setInfo(res.data.list);
     setOilInfo(oilRes.data.list);
+
+    setIsLoading(false);
   }
 
   useEffect(()=>{
@@ -30,6 +36,7 @@ const GasStationDetail = () => {
 
   return (
     <div className={styles.container}>
+      {isLoading && <Loader />}
       {
         info.length === 0 ?
         (

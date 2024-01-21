@@ -9,17 +9,23 @@ import { MdStars } from "react-icons/md";
 import NoData from '@/components/no-data/NoData';
 import DetailHeader from '@/components/detail-header/DetailHeader';
 import InfoBox from '@/components/infoBox/InfoBox';
+import Loader from '@/components/loader/Loader';
 
 const FoodDetail = () => {
 
   const [info, setInfo] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
 
   const url = `https://data.ex.co.kr/openapi/restinfo/restBestfoodList?key=test&type=json&numOfRows=50&pageNo=1&stdRestCd=${id}`;
 
   const getInfo = async () => {
+    setIsLoading(true);
+
     const res = await axios.get(url);
     setInfo(res.data.list);
+
+    setIsLoading(false);
   }
 
   useEffect(()=>{
@@ -29,6 +35,7 @@ const FoodDetail = () => {
 
   return (
     <div className={styles.container}>
+      {isLoading && <Loader />}
       {
         info.length === 0 ?
         (
