@@ -8,9 +8,11 @@ import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '@/firebase/firebase'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
+import Loader from '@/components/loader/Loader'
 
 const LoginClient = () => {
-  const [formData, setFormData] = useState({ email : '', password : ''})
+  const [formData, setFormData] = useState({ email : '', password : ''});
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleInputChange = (e)=>{
@@ -23,6 +25,7 @@ const LoginClient = () => {
 
   const handleSubmit = async (e)=>{
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       await signInWithEmailAndPassword(auth, formData.email, formData.password);
@@ -34,12 +37,13 @@ const LoginClient = () => {
       toast.error(error?.code);
       console.log(error);
     }
-
-    
+    setIsLoading(false);
   }
 
   return (
     <div className={styles.page}>
+      
+      {isLoading && <Loader />}
       <div className={styles.container}>
         <h2 className={styles.title}>로그인</h2>
         <form onSubmit={handleSubmit}>
