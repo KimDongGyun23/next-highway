@@ -165,6 +165,14 @@ const bookmarkSlice = createSlice({
       state.foodBookmarkedList = food;
       state.gasStationBookmarkedList = gasStation;
       state.parkingBookmarkedList = parking;
+    },
+
+    SET_ALL_RESET : (state, action) => {
+      state.amenitiesBookmarkedList = [];
+      state.foodBookmarkedList = [];
+      state.gasStationBookmarkedList = [];
+      state.parkingBookmarkedList = [];
+      state.storageId = "";
     }
 
   }
@@ -180,7 +188,8 @@ export const {
   SET_FOOD_BOOKMARK, 
   SET_GASSTATION_BOOKMARK, 
   SET_PARKING_BOOKMARK,
-  GET_DATA_FROM_FIREBASE
+  GET_DATA_FROM_FIREBASE,
+  SET_ALL_RESET
 } = bookmarkSlice.actions;
 
 export default bookmarkSlice.reducer;

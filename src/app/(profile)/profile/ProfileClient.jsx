@@ -6,15 +6,19 @@ import Button from '@/components/button/Button'
 import { signOut } from 'firebase/auth'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
+import { useDispatch } from 'react-redux'
+import { SET_ALL_RESET } from '@/redux/slice/bookmarkSlice'
 
 const ProfileClient = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const onSignOut = async () => {
     try {
       await signOut(auth);
       toast.success("로그아웃 되었습니다.");
-      router.replace('/')
+      router.replace('/');
+      dispatch(SET_ALL_RESET());
     } 
     catch (error) {
       console.log(error);
