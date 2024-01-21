@@ -7,6 +7,7 @@ import { auth } from '@/firebase/firebase'
 import { onAuthStateChanged } from 'firebase/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { REMOVE_ACTIVE_USER, SET_ACTIVE_USER, selectIsLoggedIn } from '@/redux/slice/authSlice'
+import { usePathname, useRouter } from 'next/navigation'
 
 const HeaderClient = () => {
   const [selected, setSelected] = useState("/");
@@ -15,11 +16,7 @@ const HeaderClient = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   
   const dispatch = useDispatch();
-
-  const handleButtonClick = (path) => {
-    setSelected(path);
-  };
-  
+  const pathName = usePathname();
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -45,11 +42,14 @@ const HeaderClient = () => {
     })
   }, [dispatch, displayName])
 
+  const styleByPath = (path)=>{
+    return pathName.includes(path) ?  `${styles.item} ${styles.active}` : styles.item
+  }
 
   return (
     <header className={styles.header}>
       <div>
-        <h1 onClick={()=>setSelected("")}>
+        <h1>
           <Link className={styles.logo} href={'/'}>
             logo
           </Link>
@@ -57,31 +57,19 @@ const HeaderClient = () => {
       </div>
 
       <ul className={styles.list}>
-        <li 
-          className={selected === '/food' ? `${styles.item} ${styles.active}` : styles.item}
-          onClick={()=>handleButtonClick('/food')}
-        >
+        <li className={styleByPath('/food')}>
           <Link href={'/food'}>음식</Link>
         </li>
 
-        <li 
-          className={selected === '/amenities' ? `${styles.item} ${styles.active}` : styles.item}
-          onClick={()=>handleButtonClick('/amenities')}
-        >
+        <li className={styleByPath('/amenities')}>
           <Link href={'/amenities'}>편의시설</Link>
         </li>
 
-        <li 
-          className={selected === '/gas-station' ? `${styles.item} ${styles.active}` : styles.item}
-          onClick={()=>handleButtonClick('/gas-station')}
-        >
+        <li className={styleByPath('/gas-station')}>
           <Link href={'/gas-station'}>주유소</Link>
         </li>
 
-        <li 
-          className={selected === '/parking' ? `${styles.item} ${styles.active}` : styles.item}
-          onClick={()=>handleButtonClick('/parking')}
-        >
+        <li className={styleByPath('/parking')}>
           <Link href={'/parking'}>주차</Link>
         </li>
       </ul>
