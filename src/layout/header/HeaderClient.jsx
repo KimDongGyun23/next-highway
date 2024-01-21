@@ -12,7 +12,6 @@ import { SET_ALL_RESET } from '@/redux/slice/bookmarkSlice'
 import { toast } from 'react-toastify'
 
 const HeaderClient = () => {
-  const [selected, setSelected] = useState("/");
   const [displayName, setDisplayName] = useState('');
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
