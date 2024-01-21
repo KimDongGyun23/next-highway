@@ -1,6 +1,6 @@
 'use client'
 import axios from 'axios';
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import styles from './InfoList.module.scss'
 import Pagination from '@/components/pagination/Pagination';
 import SearchForm from '@/components/form/SearchForm';
@@ -9,7 +9,7 @@ import Sidebar from '@/layout/sidebar/Sidebar';
 import { useDispatch, useSelector } from 'react-redux';
 import { SET_ALL_INFO, SET_BOOKMARKED, SET_INITIAL_BOOKMARKED, selectCurrentPage, selectFilteredInfo, selectInfoPerPage } from '@/redux/slice/infoSlice';
 import { FaRegStar, FaStar  } from "react-icons/fa";
-import { SET_AMENITIES_BOOKMARK, SET_BOOKMARKED_INFO, SET_FOOD_BOOKMARK, SET_GASSTATION_BOOKMARK, SET_PARKING_BOOKMARK, selectAmenitiesBookmarkedList, selectFoodBookmarkedList, selectGasStationBookmarkedList, selectParkingBookmarkedList } from '@/redux/slice/bookmarkSlice';
+import { SET_AMENITIES_BOOKMARK, SET_FOOD_BOOKMARK, SET_GASSTATION_BOOKMARK, SET_PARKING_BOOKMARK, selectAmenitiesBookmarkedList, selectFoodBookmarkedList, selectGasStationBookmarkedList, selectParkingBookmarkedList } from '@/redux/slice/bookmarkSlice';
 
 const InfoList = ({ num }) => {
 
@@ -44,7 +44,7 @@ const InfoList = ({ num }) => {
 
 
   // 모든 데이터 저장
-  const getHighwayInfo = async () => {
+  const getHighwayInfo = useCallback(async () => {
     try {
       // url로부터 정보를 받아와 저장
       const res = await axios.get(url);
@@ -62,20 +62,14 @@ const InfoList = ({ num }) => {
     catch (error) {
       console.log(error);
     }
-  }
+  },[url, dispatch, amenities, food, gasStation, parking])
 
   useEffect(() => {
     getHighwayInfo();
-  }, [])
+  }, [getHighwayInfo])
 
 
-
-
-
-
-
-  
-  const handleClick = (svarCd) => {
+  const handleInfoClick = (svarCd) => {
     router.push(`${currentUrl}-details/${svarCd}`);
   }
 
@@ -114,8 +108,8 @@ const InfoList = ({ num }) => {
                   key={svarCd}
 
                 >
-                  <td onClick={()=>handleClick(svarCd)}>{svarNm}</td>
-                  <td onClick={()=>handleClick(svarCd)}>{svarAddr}</td>
+                  <td onClick={()=>handleInfoClick(svarCd)}>{svarNm}</td>
+                  <td onClick={()=>handleInfoClick(svarCd)}>{svarAddr}</td>
                   <td 
                     className={styles.save}
                     onClick={()=>handleSaveClick({svarCd, svarNm, svarAddr, isBookmarked})}
