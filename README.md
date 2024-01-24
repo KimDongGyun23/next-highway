@@ -1,7 +1,7 @@
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FKimDongGyun23%2Fnext-highway&count_bg=%23C97D4C&title_bg=%23462601&icon=opsgenie.svg&icon_color=%23E7E7E7&title=come+to+me&edge_flat=false)](https://hits.seeyoufarm.com)
   
 # NEXT-HIGHWAY
-## INTRODUCTION.
+# INTRODUCTION.
 
 이 웹 서비스는 고속도로 휴게소와 관련된 다양한 정보를 제공하는 플랫폼입니다. 
 
@@ -37,7 +37,7 @@
     
 ---
 
-## SKILL.
+# SKILL.
 
 - CSS Modules, SCSS
 - JavaScript
@@ -53,7 +53,7 @@ Firebase를 통해서는 로그인과 회원가입 기능, 즐겨찾기 데이�
 
 ---
 
-## Retrospective
+# Retrospective
 
 이 프로젝트를 혼자서 진행하면서 부족한 점을 많이 발견했습니다.<br/><br/>
 
