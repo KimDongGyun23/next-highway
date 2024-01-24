@@ -1,6 +1,5 @@
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FKimDongGyun23%2Fnext-highway&count_bg=%23C97D4C&title_bg=%23462601&icon=opsgenie.svg&icon_color=%23E7E7E7&title=come+to+me&edge_flat=false)](https://hits.seeyoufarm.com)
   
-# NEXT-HIGHWAY
 # INTRODUCTION.
 
 이 웹 서비스는 고속도로 휴게소와 관련된 다양한 정보를 제공하는 플랫폼입니다. 
