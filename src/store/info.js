@@ -23,8 +23,10 @@ export const useInfoStore = create((set)=>({
   infoPerPage : 7,      // 한 페이지 당 보여줄 정보의 개수
 
   setRestingInfo: async (url) => {
+  // setRestingInfo: async (list) => {
     const res = await axios.get(url);
     const sortedList = sortByOrder(res.data.list);
+    // const sortedList = sortByOrder(list);
     set({
       restingInfo: sortedList.map(({ svarCd, svarNm, svarAddr }) => ({
         svarCd,
@@ -36,8 +38,10 @@ export const useInfoStore = create((set)=>({
   },
 
   setGasStationInfo: async (url) => {
+  // setGasStationInfo: async (list) => {
     const res = await axios.get(url);
     const sortedList = sortByOrder(res.data.list);
+    // const sortedList = sortByOrder(list);
     set({
       gasStationInfo: sortedList.map(({ svarCd, svarNm, svarAddr }) => ({
         svarCd,

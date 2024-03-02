@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styles from './InfoList.module.scss'
 import Pagination from '@/components/pagination/Pagination';
 import SearchForm from '@/components/form/SearchForm';
@@ -16,11 +16,15 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { updateFirebase } from '@/utils/updateFirebase';
 import { updateBookmark } from '@/utils/updateBookmark'
 
-const InfoList = ({ num }) => {
+// 정보 가져올 URL - svarGsstClassCd => 0:휴게소  1:주유소
+const restingUrl = `https://data.ex.co.kr/openapi/restinfo/hiwaySvarInfoList?key=test&type=json&svarGsstClssCd=0`;
+const gasStationUrl = `https://data.ex.co.kr/openapi/restinfo/hiwaySvarInfoList?key=test&type=json&svarGsstClssCd=1`;
+
+const InfoList = () => {
+  
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
-
   const { getDataFromFirebase } = useBookmarkStore();
   const {
     filteredInfo, 
@@ -31,7 +35,9 @@ const InfoList = ({ num }) => {
     restingInfo,
     gasStationInfo,
     setFilteredInfo,
-    setAllInfo
+    setAllInfo,
+    setRestingInfo,
+    setGasStationInfo
   } = useInfoStore();
 
   const {
@@ -41,6 +47,21 @@ const InfoList = ({ num }) => {
     parkingBookmarkedList: parking,
     setFoodBookmark,
   } = useBookmarkStore();
+
+  // 모든 데이터 저장
+  const getHighwayInfo = useCallback(async () => {
+    try {
+      setRestingInfo(restingUrl);
+      setGasStationInfo(gasStationUrl);
+    } 
+    catch (error) {
+      console.log(error);
+    }
+  },[])
+
+  useEffect(()=>{
+    getHighwayInfo();
+  },[])
 
 
   // 현재 페이지와 다음 페이지의 첫 번째 인덱스 계산
@@ -124,7 +145,7 @@ const InfoList = ({ num }) => {
         <table>
           <thead>
             <tr>
-              <th>{ num === 0 ? '휴게소 명' : '주유소 명'}</th>
+              <th>{ pathname === '/gas-station' ? '주유소 명' : '휴게소 명'}</th>
               <th>주소</th>
               <th className={styles.save}>저장</th>
             </tr>

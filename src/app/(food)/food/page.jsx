@@ -3,7 +3,7 @@ import React from 'react'
 
 const Food = () => {
   return (
-    <InfoList num={0} />
+    <InfoList />
   )
 }
 
