@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import styles from './Pagination.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectFilteredInfo, selectInfoPerPage } from '@/redux/slice/infoSlice';
 import { useInfoStore } from '@/store/info';
 
 const Pagination = () => {
 
   const pageNumbers = [];
-  const dispatch = useDispatch();
-  const filteredInfo = useSelector(selectFilteredInfo);
-  const infoPerPage = useSelector(selectInfoPerPage);
-
-  const { currentPage, setCurrentPage } = useInfoStore();
+  const { filteredInfo, infoPerPage, currentPage, setCurrentPage } = useInfoStore();
 
   // 화살표 사이 페이지 개수
   const [pageNumberLimit] = useState(5);

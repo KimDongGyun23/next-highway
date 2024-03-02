@@ -6,15 +6,14 @@ import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "@/firebase/firebase";
 import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { useDispatch } from "react-redux";
-import { GET_DATA_FROM_FIREBASE } from "@/redux/slice/bookmarkSlice";
+import { useBookmarkStore } from "@/store/bookmark";
 
 export default function Home() {
-  const dispatch = useDispatch();
+  const { getDataFromFirebase } = useBookmarkStore();
 
   const getFirebaseData = async () => {
     const docSnap = await getDoc(doc(db, "bookmarked", auth.currentUser.uid));
-    dispatch(GET_DATA_FROM_FIREBASE(docSnap.data()));
+    getDataFromFirebase(docSnap.data());
   }
 
   useEffect(() => {

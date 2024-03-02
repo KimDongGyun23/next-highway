@@ -5,19 +5,18 @@ import Link from 'next/link'
 import Button from '@/components/button/Button'
 import { auth } from '@/firebase/firebase'
 import { onAuthStateChanged, signOut } from 'firebase/auth'
-import { useDispatch } from 'react-redux'
 import { usePathname, useRouter } from 'next/navigation'
-import { SET_ALL_RESET } from '@/redux/slice/bookmarkSlice'
 import { toast } from 'react-toastify'
 import { useAuthStore } from '@/store/auth'
+import { useBookmarkStore } from '@/store/bookmark'
 
 const HeaderClient = () => {
   const [displayName, setDisplayName] = useState('');
   
   const router = useRouter();
-  const dispatch = useDispatch();
   const pathName = usePathname();
   const { setActiveUser, removeActiveUser, isLoggedIn } = useAuthStore();
+  const { setAllReset } = useBookmarkStore();
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -42,7 +41,7 @@ const HeaderClient = () => {
 
       }
     })
-  }, [dispatch, displayName])
+  }, [displayName])
 
   const styleByPath = (path)=>{
     return pathName.includes(path) ?  `${styles.item} ${styles.active}` : styles.item
@@ -53,7 +52,7 @@ const HeaderClient = () => {
       await signOut(auth);
       toast.success("로그아웃 되었습니다.");
       router.replace('/');
-      dispatch(SET_ALL_RESET());
+      setAllReset();
     } 
     catch (error) {
       console.log(error);

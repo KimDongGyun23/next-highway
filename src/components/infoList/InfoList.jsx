@@ -5,18 +5,19 @@ import Pagination from '@/components/pagination/Pagination';
 import SearchForm from '@/components/form/SearchForm';
 import { usePathname, useRouter } from 'next/navigation';
 import Sidebar from '@/layout/sidebar/Sidebar';
-import { useDispatch, useSelector } from 'react-redux';
-import { SET_INITIAL_BOOKMARKED } from '@/redux/slice/infoSlice';
 import { FaRegStar, FaStar  } from "react-icons/fa";
-import { SET_AMENITIES_BOOKMARK, SET_FOOD_BOOKMARK, SET_GASSTATION_BOOKMARK, SET_PARKING_BOOKMARK, selectAmenitiesBookmarkedList, selectFoodBookmarkedList, selectGasStationBookmarkedList, selectParkingBookmarkedList } from '@/redux/slice/bookmarkSlice';
 import Loader from '../loader/Loader';
-import { auth } from '@/firebase/firebase';
+import { auth, db } from '@/firebase/firebase';
 import { toast } from 'react-toastify';
 import { useInfoStore } from '@/store/info';
+import { useBookmarkStore } from '@/store/bookmark';
+import { doc, setDoc } from 'firebase/firestore';
+import { useBookmark } from '@/hooks/useBookmark';
 
 const InfoList = ({ num }) => {
 
   const [isLoading, setIsLoading] = useState(false);
+
   const { 
     initializeStore, 
     filteredInfo, 
@@ -26,8 +27,15 @@ const InfoList = ({ num }) => {
     setInitialBookmarked
   } = useInfoStore();
 
+  const {
+    amenitiesBookmarkedList: amenities,
+    foodBookmarkedList: food,
+    gasStationBookmarkedList: gasStation,
+    parkingBookmarkedList: parking,
+    setFoodBookmark,
+  } = useBookmarkStore();
+
   const router = useRouter();
-  const dispatch = useDispatch();
   const pathname = usePathname();
 
   // 현재 페이지와 다음 페이지의 첫 번째 인덱스 계산
@@ -37,15 +45,9 @@ const InfoList = ({ num }) => {
   // 현재 페이지에 보여지는 정보
   const currentProducts = filteredInfo?.slice( firstIndexOfCurrentPage, firstIndexOfNextPage )
 
+
   // 정보 가져올 URL - svarGsstClassCd => 0:휴게소  1:주유소
   const url = `https://data.ex.co.kr/openapi/restinfo/hiwaySvarInfoList?key=test&type=json&svarGsstClssCd=${num}`;
-
-
-  const amenities = useSelector(selectAmenitiesBookmarkedList);
-  const food = useSelector(selectFoodBookmarkedList);
-  const gasStation = useSelector(selectGasStationBookmarkedList);
-  const parking = useSelector(selectParkingBookmarkedList);
-
 
 
   // 모든 데이터 저장
@@ -56,42 +58,61 @@ const InfoList = ({ num }) => {
       initializeStore(url);
 
       // firebase로부터 정보를 받아와 저장
-      switch(pathname) {
-        case '/amenities':    dispatch(SET_INITIAL_BOOKMARKED(amenities)); break;
-        case '/food':         setInitialBookmarked(food); break;
-        case '/gas-station' : dispatch(SET_INITIAL_BOOKMARKED(gasStation)); break;
-        case '/parking' :     dispatch(SET_INITIAL_BOOKMARKED(parking)); break;
-        // case '/amenities':    dispatch(SET_INITIAL_BOOKMARKED(amenities)); break;
-        // case '/food':         dispatch(SET_INITIAL_BOOKMARKED(food)); break;
-        // case '/gas-station' : dispatch(SET_INITIAL_BOOKMARKED(gasStation)); break;
-        // case '/parking' :     dispatch(SET_INITIAL_BOOKMARKED(parking)); break;
-      }
+      setInitialBookmarked(getBookmarkArray(pathname))
     } 
     catch (error) {
       console.log(error);
     }
     setIsLoading(false);
   },[])
-
-
+  
+  
   useEffect(() => {
     getHighwayInfo();
   }, [getHighwayInfo])
-
+  
   const handleInfoClick = (svarCd) => {
     router.push(`${pathname}-details/${svarCd}`);
   }
 
+  const getBookmarkArray = (pathname) => {
+    switch (pathname) {
+      case '/amenities': return amenities;
+      case '/food': return food;
+      case '/gas-station': return gasStation;
+      case '/parking': return parking;
+      default: return [];
+    }
+  };
+
+  const firebaseUpdate = (bookmarkedList) => {
+    // firebase 업데이트
+    auth?.currentUser && (
+      setDoc(doc(db, "bookmarked", auth.currentUser.uid), {
+        userId : auth.currentUser.uid,
+        userEmail : auth.currentUser.email,
+        ...bookmarkedList
+      })
+    )
+  }
+
   const handleSaveClick = (infoObj)=>{
     if (auth?.currentUser){
-      switch(pathname) {
-        case '/amenities':    dispatch(SET_AMENITIES_BOOKMARK(infoObj)); break;
-        case '/food':         dispatch(SET_FOOD_BOOKMARK(infoObj)); break;
-        case '/gas-station' : dispatch(SET_GASSTATION_BOOKMARK(infoObj)); break;
-        case '/parking' :     dispatch(SET_PARKING_BOOKMARK(infoObj)); break;
-      }
+      const updateArr = useBookmark(infoObj, getBookmarkArray(pathname));
+
+      const bookmarkedList = { 
+        amenities, 
+        food, 
+        gasStation, 
+        parking, 
+        [pathname.slice(1)] : updateArr 
+      };
+      
+      setFoodBookmark(updateArr);
+      firebaseUpdate(bookmarkedList);
       toggleBookmarked(infoObj.svarCd);
-    } else {
+    }
+    else {
       toast.warning("로그인이 필요합니다.");
     }
   }

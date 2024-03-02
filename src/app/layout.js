@@ -2,7 +2,6 @@ import Header from '@/layout/header/Header';
 import './globals.css'
 import ToastProvider from '@/components/toastProvider/ToastProvider'
 import { Noto_Sans_KR } from 'next/font/google'
-import Providers from '@/redux/provider';
 
 const notoSansKr = Noto_Sans_KR({
   weight: ['100', '400', '700'],
@@ -18,11 +17,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="ko">
       <body className={notoSansKr.className}>
-        <Providers>
-          <Header />
-          <ToastProvider />
-          {children}
-        </Providers>
+        <Header />
+        <ToastProvider />
+        {children}
       </body>
     </html>
   )
