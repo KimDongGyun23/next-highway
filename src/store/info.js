@@ -6,7 +6,6 @@ const sortByOrder = (list) => {
   const sortedList = list.sort((a, b) => {
     const nameA = a.svarNm;
     const nameB = b.svarNm;
-  
     if (nameA < nameB) { return -1; }
     if (nameA > nameB) { return 1; }
     return 0;
@@ -17,23 +16,30 @@ const sortByOrder = (list) => {
 
 export const useInfoStore = create((set)=>({
   allHighwayInfo : [],  // 모든 정보
+  restingInfo : [],
+  gasStationInfo : [],
   filteredInfo : [],    // 필터링된 정보
   currentPage : 1,      // 현재 페이지
   infoPerPage : 7,      // 한 페이지 당 보여줄 정보의 개수
 
-  initializeStore: async (url) => {
+  setRestingInfo: async (url) => {
     const res = await axios.get(url);
     const sortedList = sortByOrder(res.data.list);
-
     set({
-      allHighwayInfo: sortedList.map(({ svarCd, svarNm, svarAddr }) => ({
+      restingInfo: sortedList.map(({ svarCd, svarNm, svarAddr }) => ({
         svarCd,
         svarNm,
         svarAddr,
         isBookmarked: false,
       })),
-      
-      filteredInfo: sortedList.map(({ svarCd, svarNm, svarAddr }) => ({
+    })
+  },
+
+  setGasStationInfo: async (url) => {
+    const res = await axios.get(url);
+    const sortedList = sortByOrder(res.data.list);
+    set({
+      gasStationInfo: sortedList.map(({ svarCd, svarNm, svarAddr }) => ({
         svarCd,
         svarNm,
         svarAddr,

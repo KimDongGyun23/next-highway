@@ -1,5 +1,5 @@
 'use client'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './InfoList.module.scss'
 import Pagination from '@/components/pagination/Pagination';
 import SearchForm from '@/components/form/SearchForm';
@@ -11,20 +11,27 @@ import { auth, db } from '@/firebase/firebase';
 import { toast } from 'react-toastify';
 import { useInfoStore } from '@/store/info';
 import { useBookmarkStore } from '@/store/bookmark';
-import { doc, setDoc } from 'firebase/firestore';
-import { useBookmark } from '@/hooks/useBookmark';
+import { doc, getDoc } from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
+import { updateFirebase } from '@/utils/updateFirebase';
+import { updateBookmark } from '@/utils/updateBookmark'
 
 const InfoList = ({ num }) => {
-
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
 
-  const { 
-    initializeStore, 
+  const { getDataFromFirebase } = useBookmarkStore();
+  const {
     filteredInfo, 
     infoPerPage, 
     currentPage,
     toggleBookmarked,
-    setInitialBookmarked
+    setInitialBookmarked,
+    restingInfo,
+    gasStationInfo,
+    setFilteredInfo,
+    setAllInfo
   } = useInfoStore();
 
   const {
@@ -35,70 +42,55 @@ const InfoList = ({ num }) => {
     setFoodBookmark,
   } = useBookmarkStore();
 
-  const router = useRouter();
-  const pathname = usePathname();
 
   // 현재 페이지와 다음 페이지의 첫 번째 인덱스 계산
   const firstIndexOfNextPage = currentPage * infoPerPage;
   const firstIndexOfCurrentPage = firstIndexOfNextPage - infoPerPage;
-
-  // 현재 페이지에 보여지는 정보
   const currentProducts = filteredInfo?.slice( firstIndexOfCurrentPage, firstIndexOfNextPage )
 
-
-  // 정보 가져올 URL - svarGsstClassCd => 0:휴게소  1:주유소
-  const url = `https://data.ex.co.kr/openapi/restinfo/hiwaySvarInfoList?key=test&type=json&svarGsstClssCd=${num}`;
-
-
-  // 모든 데이터 저장
-  const getHighwayInfo = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      // url로부터 정보를 받아와 저장
-      initializeStore(url);
-
-      // firebase로부터 정보를 받아와 저장
-      setInitialBookmarked(getBookmarkArray(pathname))
-    } 
-    catch (error) {
-      console.log(error);
+  useEffect(()=>{
+    setIsLoading(true)
+    if ( pathname === '/gas-station') {
+      setAllInfo(gasStationInfo)
+      setFilteredInfo(gasStationInfo)
+    } else {
+      setAllInfo(restingInfo)
+      setFilteredInfo(restingInfo)
     }
-    setIsLoading(false);
-  },[])
-  
-  
-  useEffect(() => {
-    getHighwayInfo();
-  }, [getHighwayInfo])
-  
+
+    onAuthStateChanged(auth, (user) => {
+      if(user) { getFirebaseData(); }
+    });
+
+    setInitialBookmarked(getBookmarkArray(pathname))
+    setIsLoading(false)
+  }, [])
+
+  const getFirebaseData = async () => {
+    setIsLoading(true)
+    const docSnap = await getDoc(doc(db, "bookmarked", auth.currentUser.uid));
+    getDataFromFirebase(docSnap.data());
+    setIsLoading(false)
+  }
+
+  const getBookmarkArray = (pathname)=>{
+    switch (pathname) {
+      case '/amenities':    return amenities;
+      case '/food':         return food;
+      case '/gas-station':  return gasStation;
+      case '/parking':      return parking;
+      default:              return [];
+    }
+  }
+
   const handleInfoClick = (svarCd) => {
     router.push(`${pathname}-details/${svarCd}`);
   }
 
-  const getBookmarkArray = (pathname) => {
-    switch (pathname) {
-      case '/amenities': return amenities;
-      case '/food': return food;
-      case '/gas-station': return gasStation;
-      case '/parking': return parking;
-      default: return [];
-    }
-  };
-
-  const firebaseUpdate = (bookmarkedList) => {
-    // firebase 업데이트
-    auth?.currentUser && (
-      setDoc(doc(db, "bookmarked", auth.currentUser.uid), {
-        userId : auth.currentUser.uid,
-        userEmail : auth.currentUser.email,
-        ...bookmarkedList
-      })
-    )
-  }
-
   const handleSaveClick = (infoObj)=>{
+    setIsLoading(true)
     if (auth?.currentUser){
-      const updateArr = useBookmark(infoObj, getBookmarkArray(pathname));
+      const updateArr = updateBookmark(infoObj, getBookmarkArray(pathname));
 
       const bookmarkedList = { 
         amenities, 
@@ -109,17 +101,17 @@ const InfoList = ({ num }) => {
       };
       
       setFoodBookmark(updateArr);
-      firebaseUpdate(bookmarkedList);
+      updateFirebase(bookmarkedList);
       toggleBookmarked(infoObj.svarCd);
     }
     else {
       toast.warning("로그인이 필요합니다.");
     }
+    setIsLoading(false)
   }
 
   return (
     <div className={styles.container}>
-
       <div>
         <Sidebar/>
       </div>

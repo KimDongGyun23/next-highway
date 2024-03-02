@@ -7,10 +7,10 @@ const Loader = () => {
     <div className={styles.wrapper}>
       <div className={styles.loader}>
         <RotatingLines
-          strokeColor='grey'
+          strokeColor="#5e3810"
           strokeWidth='5'
           animationDuration='0.75'
-          width='30'
+          width='50'
           visible={true}
         />
       </div>

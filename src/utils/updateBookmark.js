@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 
-export const useBookmark = (infoObj, target) => {
+export const updateBookmark = (infoObj, target) => {
   const { svarCd, svarNm, svarAddr, isBookmarked } = infoObj;
 
   // 객체에 즐겨찾기 하고자 하는 항목이 있는지 확인
